@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\admin\AdminAuthController;
-use App\Http\Controllers\Admin\AdminClassroomController;
+use App\Http\Controllers\admin\AdminClassroomController;
 use App\Http\Controllers\admin\AdminDashboardController;
 use App\Http\Controllers\admin\AdminPresensiController;
-use App\Http\Controllers\Admin\AdminReportController;
-use App\Http\Controllers\Admin\AdminSettingController;
-use App\Http\Controllers\Admin\AdminStudentController;
-use App\Http\Controllers\Admin\AdminSubmissionController;
+use App\Http\Controllers\admin\AdminReportController;
+use App\Http\Controllers\admin\AdminSettingController;
+use App\Http\Controllers\admin\AdminStudentController;
+use App\Http\Controllers\admin\AdminSubmissionController;
 use App\Http\Controllers\QrCodeController;
 use Illuminate\Support\Facades\Route;
 
@@ -75,7 +75,7 @@ Route::middleware(['auth:user'])->group(function () {
         // Settings
         Route::prefix('settings')->name('settings.')->group(function () {
             Route::get('location', [AdminSettingController::class, 'location'])->name('location');
-            Route::put('location', [AdminSettingController::class, 'location'])->name('location');
+            Route::put('location', [AdminSettingController::class, 'location']);
         });
 
         // Submissions

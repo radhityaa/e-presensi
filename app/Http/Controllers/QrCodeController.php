@@ -50,21 +50,21 @@ class QrCodeController extends Controller
                 'success' => false,
                 'message' => 'QR Code Tidak Valid!'
             ]);
-        }
-
-        $qrcode = ModelsQrcode::create(['uuid' => $request->qrcode, 'student_id' => Auth::user()->id]);
-
-        if ($qrcode) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Silahkan Absen!',
-                'redirect' => route('presensi.index', $qrcode->uuid)
-            ]);
         } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'QR Code Tidak Valid!'
-            ]);
+            $qrcode = ModelsQrcode::create(['uuid' => $request->qrcode, 'student_id' => Auth::user()->id]);
+
+            if ($qrcode) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Silahkan Absen!',
+                    'redirect' => route('presensi.index', $qrcode->uuid)
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'QR Code Tidak Valid!'
+                ]);
+            }
         }
     }
 }
