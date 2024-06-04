@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('qrcodes', function (Blueprint $table) {
             $table->id();
-            $table->uuid();
-            $table->foreignId('student_id')->constrained('students');
-            $table->boolean('used')->default(0);
+            $table->text('qrcode');
             $table->timestamps();
         });
     }

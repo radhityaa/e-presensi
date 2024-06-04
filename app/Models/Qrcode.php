@@ -9,7 +9,7 @@ class Qrcode extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['uuid', 'student_id', 'used'];
+    protected $fillable = ['qrcode'];
     protected $with = ['student'];
 
     public function student()

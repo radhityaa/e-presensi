@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Storage;
 
 class PresensiController extends Controller
 {
-    public function index($uuid)
+    public function index($qrcode)
     {
-        $qrcode = Qrcode::where('uuid', $uuid)->where('student_id', Auth::user()->id)->first();
+        $qrcode = Qrcode::where('qrcode', $qrcode)->first();
 
-        if (!$qrcode || $qrcode->used == 1) {
+        if (!$qrcode) {
             return redirect(route('dashboard'));
         }
 
@@ -31,87 +31,94 @@ class PresensiController extends Controller
 
     public function store(Request $request)
     {
-        $qrcode = Qrcode::where('uuid', $request->qrcode)->where('student_id', Auth::user()->id)->first();
+        $qrcode = Qrcode::where(['qrcode' => $request->qrcode])->first();
 
-        $today = Carbon::now()->toDateString();
-        $studentId = Auth::guard('student')->user()->id;
-        $tgl_presensi = date('Y-m-d');
-        $jam = date("H:i:s");
-        $location = SettingLocation::first();
-        $locationRadius = $location->radius;
-        $location = explode(',', $location->location);
-
-        $latOffice = $location[0];
-        $lngOffice = $location[1];
-
-        $location = $request->lokasi;
-        $userLocation = explode(",", $location);
-        $latUser = $userLocation[0];
-        $lngUser = $userLocation[1];
-
-        $distance = $this->distance($latOffice, $lngOffice, $latUser, $lngUser);
-        $radius = round($distance["meters"]);
-
-        $image = $request->image;
-        $folderPath = "public/uploads/absensi/";
-        $formatName = Auth::guard('student')->user()->nik . "_" . $tgl_presensi . "_" . Str::random(6);
-        $imageParts = explode(";base64", $image);
-        $imageBase64 = base64_decode($imageParts[1]);
-        $fileName = $formatName . ".png";
-        $file = $folderPath . $fileName;
-
-        $absen = Presensi::whereDate('created_at', $today)->where('student_id', $studentId)->first();
-
-        if ($radius > $locationRadius) {
+        if (!$qrcode) {
             return response()->json([
                 'success' => false,
-                'message' => 'Maaf, Anda diluar Jangkauan!'
+                'message' => 'QR Code Tidak Valid!'
             ], 403);
         } else {
-            if ($absen) {
-                $update = $absen->update([
-                    'jam_out' => $jam,
-                    'picture_out' => $fileName,
-                    'location_out' => $location
-                ]);
+            $today = Carbon::now()->toDateString();
+            $studentId = Auth::guard('student')->user()->id;
+            $tgl_presensi = date('Y-m-d');
+            $jam = date("H:i:s");
+            $location = SettingLocation::first();
+            $locationRadius = $location->radius;
+            $location = explode(',', $location->location);
 
-                if ($update) {
-                    Storage::put($file, $imageBase64);
-                    $qrcode->update(['used' => 1]);
+            $latOffice = $location[0];
+            $lngOffice = $location[1];
 
-                    return response()->json([
-                        'success' => true,
-                        'type' => 'out',
-                        'message' => "Absen Pulang Berhasil"
-                    ], 200);
-                } else {
-                    return response()->json([
-                        'success' => false,
-                        'message' => "Internal Server Error"
-                    ], 500);
-                }
+            $location = $request->lokasi;
+            $userLocation = explode(",", $location);
+            $latUser = $userLocation[0];
+            $lngUser = $userLocation[1];
+
+            $distance = $this->distance($latOffice, $lngOffice, $latUser, $lngUser);
+            $radius = round($distance["meters"]);
+
+            $image = $request->image;
+            $folderPath = "public/uploads/absensi/";
+            $formatName = Auth::guard('student')->user()->nik . "_" . $tgl_presensi . "_" . Str::random(6);
+            $imageParts = explode(";base64", $image);
+            $imageBase64 = base64_decode($imageParts[1]);
+            $fileName = $formatName . ".png";
+            $file = $folderPath . $fileName;
+
+            $absen = Presensi::whereDate('created_at', $today)->where('student_id', $studentId)->first();
+
+            if ($radius > $locationRadius) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Maaf, Anda diluar Jangkauan!'
+                ], 403);
             } else {
-                $save = Presensi::create([
-                    'student_id' => Auth::guard('student')->user()->id,
-                    'jam_in' => $jam,
-                    'picture_in' => $fileName,
-                    'location_in' => $location
-                ]);
+                if ($absen) {
+                    $update = $absen->update([
+                        'jam_out' => $jam,
+                        'picture_out' => $fileName,
+                        'location_out' => $location
+                    ]);
 
-                if ($save) {
-                    Storage::put($file, $imageBase64);
-                    $qrcode->update(['used' => 1]);
+                    if ($update) {
+                        Storage::put($file, $imageBase64);
+                        $qrcode->delete();
 
-                    return response()->json([
-                        'success' => true,
-                        'type' => 'in',
-                        'message' => "Absen Masuk Berhasil"
-                    ], 200);
+                        return response()->json([
+                            'success' => true,
+                            'type' => 'out',
+                            'message' => "Absen Pulang Berhasil"
+                        ], 200);
+                    } else {
+                        return response()->json([
+                            'success' => false,
+                            'message' => "Internal Server Error"
+                        ], 500);
+                    }
                 } else {
-                    return response()->json([
-                        'success' => false,
-                        'message' => "Internal Server Error"
-                    ], 500);
+                    $save = Presensi::create([
+                        'student_id' => Auth::guard('student')->user()->id,
+                        'jam_in' => $jam,
+                        'picture_in' => $fileName,
+                        'location_in' => $location
+                    ]);
+
+                    if ($save) {
+                        Storage::put($file, $imageBase64);
+                        $qrcode->delete();
+
+                        return response()->json([
+                            'success' => true,
+                            'type' => 'in',
+                            'message' => "Absen Masuk Berhasil"
+                        ], 200);
+                    } else {
+                        return response()->json([
+                            'success' => false,
+                            'message' => "Internal Server Error"
+                        ], 500);
+                    }
                 }
             }
         }

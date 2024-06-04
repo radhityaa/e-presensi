@@ -101,9 +101,9 @@
             <span class="menu-header-text" data-i18n="Misc">Misc</span>
         </li>
         <li class="menu-item">
-            <a href="https://pixinvent.ticksy.com/" target="_blank" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-lifebuoy"></i>
-                <div data-i18n="Support">Support</div>
+            <a href="{{ route('admin.qr.qrcode') }}" target="_blank" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-qrcode"></i>
+                <div>Scan QRCode</div>
             </a>
         </li>
         <li class="menu-item">

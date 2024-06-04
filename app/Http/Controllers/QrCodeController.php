@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Qrcode as ModelsQrcode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Ramsey\Uuid\Uuid;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -18,8 +19,7 @@ class QrCodeController extends Controller
     public function generateQr()
     {
         $uuidGenerate = Uuid::uuid4();
-
-        // $updateQr = ModelsQrcode::create(['uuid' => $uuidGenerate]);
+        ModelsQrcode::create(['qrcode' => $uuidGenerate]);
 
         $from = [255, 0, 0];
         $to = [0, 0, 255];
@@ -44,27 +44,18 @@ class QrCodeController extends Controller
 
     public function validation(Request $request)
     {
-        $validationQr = ModelsQrcode::where('uuid', $request->qrcode)->where('student_id', Auth::user()->id)->first();
-        if ($validationQr) {
-            return response()->json([
-                'success' => false,
-                'message' => 'QR Code Tidak Valid!'
-            ]);
-        } else {
-            $qrcode = ModelsQrcode::create(['uuid' => $request->qrcode, 'student_id' => Auth::user()->id]);
+        $qrcode = ModelsQrcode::where('qrcode', $request->qrcode)->first();
 
-            if ($qrcode) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Silahkan Absen!',
-                    'redirect' => route('presensi.index', $qrcode->uuid)
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'QR Code Tidak Valid!'
-                ]);
-            }
+        if ($qrcode) {
+            return response()->json([
+                'success' => true,
+                'redirect' => route('presensi.index', $qrcode->qrcode)
+            ]);
         }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'QR Code Tidak Valid!'
+        ]);
     }
 }

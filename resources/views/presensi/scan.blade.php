@@ -28,7 +28,6 @@
     <script>
         function onScanSuccess(decodedText, decodedResult) {
             // handle the scanned code as you like, for example:
-            // console.log(`Code matched = ${decodedText}`, decodedResult);
             $.ajax({
                 url: "{{ route('qrcode.validation') }}",
                 type: "POST",
@@ -39,12 +38,6 @@
                 cache: false,
                 success: function(res) {
                     if (res.success) {
-                        Swal.fire({
-                            title: 'Berhasil!',
-                            text: res.message,
-                            icon: 'success',
-                            confirmButtonText: 'Ok'
-                        })
                         window.location.href = res.redirect
                     } else {
                         Swal.fire({
@@ -68,8 +61,8 @@
             "reader", {
                 fps: 10,
                 qrbox: {
-                    width: 250,
-                    height: 250
+                    width: 300,
+                    height: 300
                 },
             },
             /* verbose= */

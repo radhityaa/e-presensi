@@ -36,7 +36,7 @@
     <div class="row" style="margin-top: 70px;">
         <div class="col">
             <input type="hidden" name="lokasi" id="lokasi">
-            <input type="hidden" name="qrcode" id="qrcode" value="{{ $qrcode->uuid }}">
+            <input type="hidden" name="qrcode" id="qrcode" value="{{ $qrcode->qrcode }}">
 
             <div class="webcam-capture"></div>
         </div>
