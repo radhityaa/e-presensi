@@ -10,11 +10,26 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\DataTables;
 
 class AdminStudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->ajax()) {
+            $data = Student::with('classroom')->latest();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn_edit = '<a href="' . route('admin.student.edit', $row->nik) . '" class="btn btn-sm btn-icon item-edit"><i class="text-info ti ti-eye"></i></a>';
+                    $btn_view = '<a href="' . route('admin.student.show', $row->nik) . '" class="btn btn-sm btn-icon item-view"><i class="text-warning ti ti-pencil"></i></a>';
+                    $btn_delete = '<button class="btn btn-sm btn-icon item-delete" data-nik="' . $row->nik . '"><i class="text-danger ti ti-trash"></i></button>';
+                    return '<div class="btn-group">' . $btn_view . $btn_edit . $btn_delete . '</div>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
         return view('admin.student.index');
     }
 

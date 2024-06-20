@@ -21,14 +21,19 @@
         <!-- DataTable -->
         <div class="card">
             <div class="card-datatable table-responsive pt-0">
+                <div class="d-flex justify-content-end p-3">
+                    <a href="{{ route('admin.student.create') }}" class="btn btn-sm btn-success"><i
+                            class="ti ti-plus me-sm-1"></i> Tambah Siswa</a>
+                </div>
+
                 <table class="datatables-students table">
                     <thead>
                         <tr>
                             <th></th>
                             <th></th>
-                            <th>id</th>
+                            <th>#</th>
+                            <th>NIK</th>
                             <th>Nama</th>
-                            <th>Nomor HP</th>
                             <th>Kelas</th>
                             <th>Action</th>
                         </tr>
@@ -94,6 +99,100 @@
                 }
             });
         })
+
+        var daTables = $('.datatables-students').DataTable({
+            processing: true,
+            serverside: true,
+            ajax: "{{ route('admin.student.index') }}",
+            columnDefs: [{
+                    // For Responsive
+                    className: 'control',
+                    orderable: false,
+                    searchable: false,
+                    responsivePriority: 2,
+                    targets: 0,
+                    render: function(data, type, full, meta) {
+                        return '';
+                    },
+                },
+                {
+                    target: 1,
+                    visible: false
+                },
+                {
+                    targets: 3,
+                    responsivePriority: 3
+                },
+                {
+                    targets: 4,
+                    responsivePriority: 1,
+                },
+            ],
+            columns: [{
+                    data: '',
+                    name: ''
+                },
+                {
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'nik',
+                    name: 'nik'
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'classroom.name',
+                    name: 'classroom.name'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ],
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.modal({
+                        header: function(row) {
+                            var data = row.data();
+                            return data['name'];
+                        }
+                    }),
+                    type: 'column',
+                    renderer: function(api, rowIdx, columns) {
+                        var data = $.map(columns, function(col, i) {
+                            return col.title !==
+                                '' // ? Do not show row in modal popup if title is blank (for check box)
+                                ?
+                                '<tr data-dt-row="' +
+                                col.rowIndex +
+                                '" data-dt-column="' +
+                                col.columnIndex +
+                                '">' +
+                                '<td>' +
+                                col.title +
+                                ':' +
+                                '</td> ' +
+                                '<td>' +
+                                col.data +
+                                '</td>' +
+                                '</tr>' :
+                                '';
+                        }).join('');
+
+                        return data ? $('<table class="table"/><tbody />').append(data) : false;
+                    }
+                }
+            }
+        })
     </script>
-    <script src="{{ asset('assets/js/core/student.js') }}"></script>
 @endpush
