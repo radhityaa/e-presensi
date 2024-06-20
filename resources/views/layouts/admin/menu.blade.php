@@ -51,6 +51,11 @@
             </a>
 
             <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('admin/master/users*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.users.index') }}" class="menu-link">
+                        <div>Data User</div>
+                    </a>
+                </li>
                 <li class="menu-item {{ request()->is('admin/master/student*') ? 'active' : '' }}">
                     <a href="{{ route('admin.student.index') }}" class="menu-link">
                         <div>Data Siswa</div>

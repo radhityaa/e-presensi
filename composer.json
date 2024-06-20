@@ -36,7 +36,9 @@
         },
         "files": [
             "app/Helpers/DifferenceTime.php",
-            "app/Helpers/DateHelper.php"
+            "app/Helpers/DateHelper.php",
+            "app/Helpers/MyHelper.php",
+            "app/Helpers/AppHelper.php"
         ]
     },
     "autoload-dev": {

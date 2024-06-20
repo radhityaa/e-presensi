@@ -101,8 +101,8 @@
                         @csrf
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="email" name="email"
+                            <label for="nik" class="form-label">Nik</label>
+                            <input type="text" class="form-control" id="nik" name="nik"
                                 placeholder="example@mail.com" autofocus required />
                         </div>
                         <div class="mb-3 form-password-toggle">

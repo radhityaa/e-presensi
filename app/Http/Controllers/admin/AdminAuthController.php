@@ -10,13 +10,13 @@ class AdminAuthController extends Controller
 {
     public function store(Request $request)
     {
-        if (Auth::guard('user')->attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::guard('user')->attempt(['nik' => $request->nik, 'password' => $request->password])) {
             return redirect(route('admin.dashboard'));
         } else {
             notyf()
                 ->position('x', 'center')
                 ->position('y', 'top')
-                ->addError('Email / Password Salah.');
+                ->addError('Nik / Password Salah.');
             return redirect(route('admin.login.index'));
         }
     }

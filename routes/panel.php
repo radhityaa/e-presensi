@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\AdminSettingController;
 use App\Http\Controllers\admin\AdminStudentController;
 use App\Http\Controllers\admin\AdminSubmissionController;
 use App\Http\Controllers\QrCodeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest:user'])->group(function () {
@@ -44,6 +45,18 @@ Route::middleware(['auth:user'])->group(function () {
 
         // Data Master
         Route::prefix('master')->group(function () {
+
+            // Master User
+            Route::prefix('users')->name('users.')->group(function () {
+                Route::get('list', [UserController::class, 'list'])->name('list');
+
+                Route::get('', [UserController::class, 'index'])->name('index');
+                Route::get('create', [UserController::class, 'create'])->name('create');
+                Route::post('create', [UserController::class, 'store'])->name('store');
+                Route::get('{nik}/edit', [UserController::class, 'edit'])->name('edit');
+                Route::put('{nik}/edit', [UserController::class, 'update'])->name('update');
+                Route::delete('{nik}', [UserController::class, 'destroy'])->name('destroy');
+            });
 
             // Master Student
             Route::prefix('student')->name('student.')->group(function () {
