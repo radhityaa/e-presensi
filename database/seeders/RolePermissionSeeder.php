@@ -25,6 +25,8 @@ class RolePermissionSeeder extends Seeder
 
         $admin = User::create([
             'name' => 'Admininistrator',
+            'nik' => '1234567890',
+            'phone' => '0895347113987',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('password'),
         ]);
@@ -32,6 +34,8 @@ class RolePermissionSeeder extends Seeder
 
         $staff = User::create([
             'name' => 'Staff',
+            'nik' => '1234567891',
+            'phone' => '0895347113987',
             'email' => 'staff@gmail.com',
             'password' => bcrypt('password'),
         ]);
@@ -39,6 +43,8 @@ class RolePermissionSeeder extends Seeder
 
         $guru = User::create([
             'name' => 'Guru',
+            'nik' => '1234567892',
+            'phone' => '0895347113987',
             'email' => 'guru@gmail.com',
             'password' => bcrypt('password'),
         ]);
@@ -46,6 +52,8 @@ class RolePermissionSeeder extends Seeder
 
         $walikelas = User::create([
             'name' => 'Walikelas',
+            'nik' => '1234567893',
+            'phone' => '0895347113987',
             'email' => 'walikelas@gmail.com',
             'password' => bcrypt('password'),
         ]);

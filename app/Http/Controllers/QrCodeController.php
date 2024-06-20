@@ -39,7 +39,8 @@ class QrCodeController extends Controller
 
     public function scan()
     {
-        return view('presensi.scan');
+        $title = 'Scan QR Code';
+        return view('presensi.scan', compact('title'));
     }
 
     public function validation(Request $request)

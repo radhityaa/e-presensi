@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command(TrashQrCode::class)->everySecond()->runInBackground();
+        $schedule->command(TrashQrCode::class)->everyFiveMinutes()->runInBackground();
     }
 
     /**

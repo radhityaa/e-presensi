@@ -26,7 +26,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="nik">NIK</label>
-                        <input type="number" name="nik" id="nik"
+                        <input type="text" name="nik" id="nik"
                             class="form-control @error('nik') is-invalid @enderror" placeholder="NIK"
                             value="{{ old('nik') }}" required />
                         @error('nik')

@@ -12,6 +12,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $title = 'Home';
+
         $today = Carbon::now()->toDateString();
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
@@ -39,7 +41,7 @@ class DashboardController extends Controller
             ->groupBy('year', 'month')
             ->first();
 
-        return view('dashboard.index', compact('presensiToday', 'presensiMonth', 'rekapAbsen', 'leaderboards', 'recapSubmmission'));
+        return view('dashboard.index', compact('presensiToday', 'presensiMonth', 'rekapAbsen', 'leaderboards', 'recapSubmmission', 'title'));
     }
 
     public function create()

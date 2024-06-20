@@ -16,6 +16,7 @@ class PresensiController extends Controller
 {
     public function index($qrcode)
     {
+        $title = 'Absen';
         $qrcode = Qrcode::where('qrcode', $qrcode)->first();
 
         if (!$qrcode) {
@@ -27,7 +28,7 @@ class PresensiController extends Controller
         $validate = Presensi::whereDate('created_at', $today)->where('student_id', $studentId)->first();
         $location = SettingLocation::first();
 
-        return view('presensi.index', compact('validate', 'location', 'qrcode'));
+        return view('presensi.index', compact('validate', 'location', 'qrcode', 'title'));
     }
 
     public function store(Request $request)
@@ -85,11 +86,6 @@ class PresensiController extends Controller
                     if ($update) {
                         Storage::put($file, $imageBase64);
                         $qrcode->delete();
-
-                        Http::post('https://panel.ayasyatech.com/send-message', [
-                            'message' => 'Absen Pulang Berhasil',
-                            'number' => '0895347113987'
-                        ]);
 
                         return response()->json([
                             'success' => true,
