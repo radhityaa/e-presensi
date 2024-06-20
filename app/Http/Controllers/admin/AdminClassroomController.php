@@ -6,11 +6,26 @@ use App\Http\Controllers\Controller;
 use App\Models\Classroom;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class AdminClassroomController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->ajax()) {
+            $classrooms = Classroom::with('user')->latest()->get();
+
+            return DataTables::of($classrooms)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn_edit = '<a href="' . route('admin.classroom.edit', $row->id) . '" class="btn btn-sm btn-icon item-view"><i class="text-warning ti ti-pencil"></i></a>';
+                    $btn_delete = '<button class="btn btn-sm btn-icon item-delete" data-id="' . $row->id . '" data-name="' . $row->name . '"><i class="text-danger ti ti-trash"></i></button>';
+                    return '<div class="btn-group">' . $btn_edit . $btn_delete . '</div>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
         return view('admin.classroom.index');
     }
 

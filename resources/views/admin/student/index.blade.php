@@ -64,7 +64,7 @@
                     cancelButton: 'btn btn-label-danger waves-effect waves-light'
                 },
             }).then((willDelete) => {
-                if (willDelete) {
+                if (willDelete.isConfirmed) {
                     $.ajax({
                         url: '/admin/master/student/' + nik,
                         type: 'DELETE',

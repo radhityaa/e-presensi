@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ asset('assets/template/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}" />
     <link rel="stylesheet"
         href="{{ asset('assets/template/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/template/vendor/libs/sweetalert2/sweetalert2.css') }}" />
 @endpush
 
 @section('title')
@@ -35,6 +34,10 @@
         <!-- DataTable -->
         <div class="card">
             <div class="card-datatable table-responsive pt-0">
+                <div class="d-flex justify-content-end p-3">
+                    <a href="{{ route('admin.users.create') }}" class="btn btn-sm btn-success"><i
+                            class="ti ti-plus me-sm-1"></i> Tambah User</a>
+                </div>
                 <table class="datatables-users table">
                     <thead>
                         <tr>
@@ -57,6 +60,7 @@
 @push('page-js')
     <script src="{{ asset('assets/template/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
     <script src="{{ asset('assets/template/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+
     <script>
         $.ajaxSetup({
             headers: {
@@ -212,15 +216,7 @@
                         return data ? $('<table class="table"/><tbody />').append(data) : false;
                     }
                 }
-            },
-            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            buttons: [{
-                text: '<i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Tambah User</span>',
-                className: 'create-new btn btn-primary btn-sm waves-effect waves-light',
-                action: function() {
-                    window.location.href = "{{ route('admin.users.create') }}"
-                }
-            }],
+            }
         })
     </script>
 @endpush

@@ -26,8 +26,8 @@
                         <tr>
                             <th></th>
                             <th></th>
-                            <th>id</th>
-                            <th>Nama</th>
+                            <th>#</th>
+                            <th>Kelas</th>
                             <th>Wali Kelas</th>
                             <th>Action</th>
                         </tr>
@@ -64,7 +64,7 @@
                     cancelButton: 'btn btn-label-danger waves-effect waves-light'
                 },
             }).then((willDelete) => {
-                if (willDelete) {
+                if (willDelete.isConfirmed) {
                     $.ajax({
                         url: '/admin/master/classroom/' + id,
                         type: 'DELETE',
@@ -95,5 +95,96 @@
             });
         })
     </script>
-    <script src="{{ asset('assets/js/core/classroom.js') }}"></script>
+    <script>
+        var daTables = $('.datatables-classrooms').DataTable({
+            processing: true,
+            serverside: true,
+            ajax: "{{ route('admin.classroom.index') }}",
+            columnDefs: [{
+                    // For Responsive
+                    className: 'control',
+                    orderable: false,
+                    searchable: false,
+                    responsivePriority: 2,
+                    targets: 0,
+                    render: function(data, type, full, meta) {
+                        return '';
+                    },
+                },
+                {
+                    target: 1,
+                    visible: false
+                },
+                {
+                    targets: 3,
+                    responsivePriority: 3
+                },
+                {
+                    targets: 4,
+                    responsivePriority: 1,
+                },
+            ],
+            columns: [{
+                    data: '',
+                    name: ''
+                },
+                {
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'user.name',
+                    name: 'user.name'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ],
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.modal({
+                        header: function(row) {
+                            var data = row.data();
+                            return data['name'];
+                        }
+                    }),
+                    type: 'column',
+                    renderer: function(api, rowIdx, columns) {
+                        var data = $.map(columns, function(col, i) {
+                            return col.title !==
+                                '' // ? Do not show row in modal popup if title is blank (for check box)
+                                ?
+                                '<tr data-dt-row="' +
+                                col.rowIndex +
+                                '" data-dt-column="' +
+                                col.columnIndex +
+                                '">' +
+                                '<td>' +
+                                col.title +
+                                ':' +
+                                '</td> ' +
+                                '<td>' +
+                                col.data +
+                                '</td>' +
+                                '</tr>' :
+                                '';
+                        }).join('');
+
+                        return data ? $('<table class="table"/><tbody />').append(data) : false;
+                    }
+                }
+            }
+        })
+    </script>
 @endpush
