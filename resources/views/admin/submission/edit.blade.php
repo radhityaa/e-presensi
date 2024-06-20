@@ -49,16 +49,29 @@
                                     placeholder="Tanggal" value="{{ $submmission->created_at->format('d M y h:i') }}"
                                     readonly />
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label" for="approve">Status</label>
-                                <select name="approve" id="approve" class="form-control"
-                                    @if ($submmission->approve == 0) required @else disabled @endif>
-                                    <option value="" selected disabled>{{ $approveName }}
-                                    </option>
-                                    <option value="1">Approved</option>
-                                    <option value="2">Rejected</option>
-                                </select>
-                            </div>
+                            @role('guru')
+                                <div class="col-md-4">
+                                    <label class="form-label" for="approve">Status</label>
+                                    <select name="approve" id="approve" class="form-control" disabled>
+                                        <option value="" selected disabled>{{ $approveName }}
+                                        </option>
+                                        <option value="1">Approved</option>
+                                        <option value="2">Rejected</option>
+                                    </select>
+                                </div>
+                            @endrole
+                            @role('admin|walikelas|staff')
+                                <div class="col-md-4">
+                                    <label class="form-label" for="approve">Status</label>
+                                    <select name="approve" id="approve" class="form-control"
+                                        @if ($submmission->approve == 0) required @else disabled @endif>
+                                        <option value="" selected disabled>{{ $approveName }}
+                                        </option>
+                                        <option value="1">Approved</option>
+                                        <option value="2">Rejected</option>
+                                    </select>
+                                </div>
+                            @endrole
                         </div>
                     </div>
                     <div class="mb-3">
@@ -106,9 +119,11 @@
 
                     <div class="mb-3">
                         <div class="d-flex gap-4">
-                            @if ($submmission->approve == 0)
-                                <button type="submit" class="btn btn-success">Submit</button>
-                            @endif
+                            @role('admin|walikelas|staff')
+                                @if ($submmission->approve == 0)
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                @endif
+                            @endrole
                             <a href="{{ route('admin.submission.index') }}" class="btn btn-dark">Kembali</a>
                         </div>
                     </div>

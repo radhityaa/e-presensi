@@ -11,6 +11,11 @@ use Yajra\DataTables\DataTables;
 
 class AdminSubmissionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:admin|staff|walikelas'])->except(['index', 'edit']);
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -15,7 +15,7 @@
                         fill="#7367F0" />
                 </svg>
             </span>
-            <span class="app-brand-text demo menu-text fw-bold">Vuexy</span>
+            <span class="app-brand-text demo menu-text fw-bold">{{ env('APP_NAME') }}</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -36,7 +36,7 @@
         </li>
 
         <!-- Submissions -->
-        <li class="menu-item {{ request()->is('submission') ? 'active' : '' }}">
+        <li class="menu-item {{ request()->is('admin/submission*') ? 'active' : '' }}">
             <a href="{{ route('admin.submission.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-license"></i>
                 <div>Data Pengajuan</div>
@@ -69,54 +69,58 @@
             </ul>
         </li>
 
-        <!-- Report -->
-        <li class="menu-item {{ request()->is('admin/report/*') ? 'active open' : '' }}">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-report"></i>
-                <div>Laporan</div>
-            </a>
+        @role('admin|staff|walikelas')
+            <!-- Report -->
+            <li class="menu-item {{ request()->is('admin/report/*') ? 'active open' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons ti ti-report"></i>
+                    <div>Laporan</div>
+                </a>
 
-            <ul class="menu-sub">
-                <li class="menu-item {{ request()->is('admin/report/absensi*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.report.presensi') }}" class="menu-link">
-                        <div>Absensi</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ request()->is('admin/report/rekap*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.report.rekap') }}" class="menu-link">
-                        <div>Rekap Absensi</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
+                <ul class="menu-sub">
+                    <li class="menu-item {{ request()->is('admin/report/absensi*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.report.presensi') }}" class="menu-link">
+                            <div>Absensi</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->is('admin/report/rekap*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.report.rekap') }}" class="menu-link">
+                            <div>Rekap Absensi</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        @endrole
 
-        <!-- Settings -->
-        <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Setting</span>
-        </li>
-        <li class="menu-item {{ request()->is('admin/settings/location*') ? 'active' : '' }}">
-            <a href="{{ route('admin.settings.location') }}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-map"></i>
-                <div>Lokasi</div>
-            </a>
-        </li>
+        @role('admin|staff')
+            <!-- Settings -->
+            <li class="menu-header small text-uppercase">
+                <span class="menu-header-text">Setting</span>
+            </li>
+            <li class="menu-item {{ request()->is('admin/settings/location*') ? 'active' : '' }}">
+                <a href="{{ route('admin.settings.location') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-map"></i>
+                    <div>Lokasi</div>
+                </a>
+            </li>
 
-        <!-- Misc -->
-        <li class="menu-header small text-uppercase">
-            <span class="menu-header-text" data-i18n="Misc">Misc</span>
-        </li>
-        <li class="menu-item">
-            <a href="{{ route('admin.qr.qrcode') }}" target="_blank" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-qrcode"></i>
-                <div>Scan QRCode</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="https://demos.pixinvent.com/vuexy-html-admin-template/documentation/" target="_blank"
-                class="menu-link">
-                <i class="menu-icon tf-icons ti ti-file-description"></i>
-                <div data-i18n="Documentation">Documentation</div>
-            </a>
-        </li>
+            <!-- Misc -->
+            <li class="menu-header small text-uppercase">
+                <span class="menu-header-text" data-i18n="Misc">Misc</span>
+            </li>
+            <li class="menu-item">
+                <a href="{{ route('admin.qr.qrcode') }}" target="_blank" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-qrcode"></i>
+                    <div>Srole QRCode</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="https://demos.pixinvent.com/vuexy-html-admin-template/documentation/" target="_blank"
+                    class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-file-description"></i>
+                    <div data-i18n="Documentation">Documentation</div>
+                </a>
+            </li>
+        @endrole
     </ul>
 </aside>

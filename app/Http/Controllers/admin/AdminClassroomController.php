@@ -6,10 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Classroom;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\DataTables;
 
 class AdminClassroomController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role:admin|staff'])->except(['index', 'list', 'show']);
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -20,7 +28,11 @@ class AdminClassroomController extends Controller
                 ->addColumn('action', function ($row) {
                     $btn_edit = '<a href="' . route('admin.classroom.edit', $row->id) . '" class="btn btn-sm btn-icon item-view"><i class="text-warning ti ti-pencil"></i></a>';
                     $btn_delete = '<button class="btn btn-sm btn-icon item-delete" data-id="' . $row->id . '" data-name="' . $row->name . '"><i class="text-danger ti ti-trash"></i></button>';
-                    return '<div class="btn-group">' . $btn_edit . $btn_delete . '</div>';
+
+                    if (Auth::user()->hasRole('admin|staff')) {
+                        return '<div class="btn-group">' . $btn_edit . $btn_delete . '</div>';
+                    }
+                    return '<div class="btn-group"></div>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);

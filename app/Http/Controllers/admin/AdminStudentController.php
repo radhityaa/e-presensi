@@ -8,12 +8,19 @@ use App\Http\Requests\Admin\AdminStudentUpdateRequest;
 use App\Models\Classroom;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 
 class AdminStudentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:admin|staff|walikelas'])->except(['index', 'list', 'show']);
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -22,10 +29,13 @@ class AdminStudentController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn_edit = '<a href="' . route('admin.student.edit', $row->nik) . '" class="btn btn-sm btn-icon item-edit"><i class="text-info ti ti-eye"></i></a>';
-                    $btn_view = '<a href="' . route('admin.student.show', $row->nik) . '" class="btn btn-sm btn-icon item-view"><i class="text-warning ti ti-pencil"></i></a>';
+                    $btn_edit = '<a href="' . route('admin.student.edit', $row->nik) . '" class="btn btn-sm btn-icon item-edit"><i class="text-warning ti ti-pencil"></i></a>';
+                    $btn_view = '<a href="' . route('admin.student.show', $row->nik) . '" class="btn btn-sm btn-icon item-view"><i class="text-info ti ti-eye"></i></a>';
                     $btn_delete = '<button class="btn btn-sm btn-icon item-delete" data-nik="' . $row->nik . '"><i class="text-danger ti ti-trash"></i></button>';
-                    return '<div class="btn-group">' . $btn_view . $btn_edit . $btn_delete . '</div>';
+                    if (Auth::user()->hasRole('admin|staff|walikelas')) {
+                        return '<div class="btn-group">' . $btn_view . $btn_edit . $btn_delete . '</div>';
+                    }
+                    return '<div class="btn-group">' . $btn_view . '</div>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);

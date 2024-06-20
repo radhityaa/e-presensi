@@ -13,7 +13,7 @@ class QrCodeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can: staff')->only(['qrcode']);
+        $this->middleware(['role:admin|staff'])->only(['qrcode']);
     }
 
     public function generateQr()
@@ -23,7 +23,7 @@ class QrCodeController extends Controller
 
         $from = [255, 0, 0];
         $to = [0, 0, 255];
-        $qrcode = QrCode::size(400)
+        $qrcode = QrCode::size(350)
             ->style('dot')
             ->eye('circle')
             ->gradient($from[0], $from[1], $from[2], $to[0], $to[1], $to[2], 'diagonal')

@@ -21,11 +21,13 @@
         <!-- DataTable -->
         <div class="card">
             <div class="card-datatable table-responsive pt-0">
-                <div class="d-flex justify-content-end p-3">
-                    <a href="{{ route('admin.classroom.create') }}" class="btn btn-sm btn-success"><i
-                            class="ti ti-plus me-sm-1"></i>
-                        Tambah Kelas</a>
-                </div>
+                @role('admin|staff')
+                    <div class="d-flex justify-content-end p-3">
+                        <a href="{{ route('admin.classroom.create') }}" class="btn btn-sm btn-success"><i
+                                class="ti ti-plus me-sm-1"></i>
+                            Tambah Kelas</a>
+                    </div>
+                @endrole
                 <table class="datatables-classrooms table">
                     <thead>
                         <tr>

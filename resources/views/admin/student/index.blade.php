@@ -21,10 +21,12 @@
         <!-- DataTable -->
         <div class="card">
             <div class="card-datatable table-responsive pt-0">
-                <div class="d-flex justify-content-end p-3">
-                    <a href="{{ route('admin.student.create') }}" class="btn btn-sm btn-success"><i
-                            class="ti ti-plus me-sm-1"></i> Tambah Siswa</a>
-                </div>
+                @role('admin|staff|walikelas')
+                    <div class="d-flex justify-content-end p-3">
+                        <a href="{{ route('admin.student.create') }}" class="btn btn-sm btn-success"><i
+                                class="ti ti-plus me-sm-1"></i> Tambah Siswa</a>
+                    </div>
+                @endrole
 
                 <table class="datatables-students table">
                     <thead>
@@ -57,6 +59,9 @@
 
         $(document).on('click', '.item-delete', function() {
             var nik = $(this).data('nik')
+            let urlDelete = "{{ route('admin.student.destroy', ':nik') }}"
+            urlDelete = urlDelete.replace(':nik', nik)
+
             Swal.fire({
                 title: 'Apakah Anda yakin?',
                 text: 'Data siswa dengan NIK ' + nik + ' akan dihapus.',
@@ -71,7 +76,7 @@
             }).then((willDelete) => {
                 if (willDelete.isConfirmed) {
                     $.ajax({
-                        url: '/admin/master/student/' + nik,
+                        url: urlDelete,
                         type: 'DELETE',
                         success: function(response) {
                             Swal.fire({

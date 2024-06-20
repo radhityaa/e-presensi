@@ -50,8 +50,8 @@
     <div class="container-xxl container-p-y">
         <div class="d-flex justify-content-center align-items-center text-center mx-auto">
             <div class="mt-3">
-                <img src="{{ asset('assets/img/logo.png') }}" class="img-fluid mb-4" width="200" height="200">
-                <h2 class="mb-1 ">Scan QR Code</h2>
+                <img src="{{ asset('assets/img/logo.png') }}" class="img-fluid mb-4" width="150" height="150">
+                <h4 class="mb-1 ">Scan QR Code</h4>
                 <p class="mb-4">Scan QR Code Untuk Melakukan Absensi</p>
                 <div class="card">
                     <div class="card-header">

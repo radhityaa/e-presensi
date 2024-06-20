@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class AdminSettingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:admin|staff']);
+    }
     public function location(Request $request)
     {
         $location = SettingLocation::first();

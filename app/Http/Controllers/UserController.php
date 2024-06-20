@@ -5,12 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:admin|staff'])->except(['index']);
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -19,9 +26,13 @@ class UserController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn_edit = '<a href="' . route('admin.users.edit', $row->nik) . '" class="btn btn-sm btn-icon item-view"><i class="text-warning ti ti-pencil"></i></a>';
-                    $btn_delete = '<button class="btn btn-sm btn-icon item-delete" data-nik="' . $row->nik . '"><i class="text-danger ti ti-trash"></i></button>';
-                    return '<div class="btn-group">' . $btn_edit . $btn_delete . '</div>';
+                    if (Auth::user()->hasRole('admin|staff')) {
+                        $btn_edit = '<a href="' . route('admin.users.edit', $row->nik) . '" class="btn btn-sm btn-icon item-view"><i class="text-warning ti ti-pencil"></i></a>';
+                        $btn_delete = '<button class="btn btn-sm btn-icon item-delete" data-nik="' . $row->nik . '"><i class="text-danger ti ti-trash"></i></button>';
+                        return '<div class="btn-group">' . $btn_edit . $btn_delete . '</div>';
+                    } else {
+                        return '';
+                    }
                 })
                 ->rawColumns(['action'])
                 ->make(true);

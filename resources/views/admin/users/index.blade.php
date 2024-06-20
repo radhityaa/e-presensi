@@ -8,7 +8,8 @@
         href="{{ asset('assets/template/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/template/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}" />
     <link rel="stylesheet"
-        href="{{ asset('assets/template/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}" />
+        href="{{ asset('assets/template/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}" />\
+    <link rel="stylesheet" href="{{ asset('assets/template/vendor/libs/sweetalert2/sweetalert2.css') }}" />
 @endpush
 
 @section('title')
@@ -21,10 +22,12 @@
         <!-- DataTable -->
         <div class="card">
             <div class="card-datatable table-responsive pt-0">
-                <div class="d-flex justify-content-end p-3">
-                    <a href="{{ route('admin.users.create') }}" class="btn btn-sm btn-success"><i
-                            class="ti ti-plus me-sm-1"></i> Tambah User</a>
-                </div>
+                @role('admin|staff')
+                    <div class="d-flex justify-content-end p-3">
+                        <a href="{{ route('admin.users.create') }}" class="btn btn-sm btn-success"><i
+                                class="ti ti-plus me-sm-1"></i> Tambah User</a>
+                    </div>
+                @endrole
                 <table class="datatables-users table">
                     <thead>
                         <tr>
@@ -61,6 +64,7 @@
 
         $(document).on('click', '.item-delete', function() {
             var nik = $(this).data('nik')
+
             let urlDelete = "{{ route('admin.users.destroy', ':nik') }}"
             urlDelete = urlDelete.replace(':nik', nik)
 

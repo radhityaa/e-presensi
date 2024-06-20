@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminReportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:admin|staff|walikelas']);
+    }
+
     public function presensi()
     {
         $month = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
