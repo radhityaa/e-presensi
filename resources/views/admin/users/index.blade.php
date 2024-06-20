@@ -18,19 +18,6 @@
 @section('content')
     <div class="col-lg-12 mb-4 col-md-12">
 
-        @if (session('status'))
-            <div class="alert {{ session('status') ? 'alert-success' : 'alert-danger' }} alert-dismissible d-flex align-items-baseline"
-                role="alert">
-                <span class="alert-icon alert-icon-lg {{ session('status') ? 'text-success' : 'text-danger' }} me-2">
-                    <i class="ti {{ session('status') ? 'ti-check' : 'ti-x' }} ti-sm"></i>
-                </span>
-                <div class="d-flex flex-column ps-1">
-                    <p class="alert-heading">{{ session('message') }}</p>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
         <!-- DataTable -->
         <div class="card">
             <div class="card-datatable table-responsive pt-0">
