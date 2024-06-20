@@ -55,12 +55,14 @@
                     <div class="mb-3">
                         <label for="role" class="form-label">Role</label>
                         <select id="role" name="role"
-                            class="select2 form-select @error('role') is-invalid @enderror" data-allow-clear="true">
+                            class="select2 form-select @error('role') is-invalid @enderror" data-allow-clear="true"
+                            required>
                             <option value="">Pilih Role</option>
-                            {{-- @foreach ($classrooms as $item)
-                                <option value="{{ $item->id }}" @if ($item->id == $student->role) selected @endif>
+                            @foreach (getRoles() as $item)
+                                <option value="{{ $item->id }}"
+                                    {{ $user->roles()->pluck('id')->first() === $item->id ? 'selected' : '' }}>
                                     {{ $item->name }}</option>
-                            @endforeach --}}
+                            @endforeach
                         </select>
                         @error('role')
                             <div class="invalid-feedback">{{ $message }}</div>

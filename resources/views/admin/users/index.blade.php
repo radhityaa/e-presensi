@@ -118,12 +118,8 @@
 
         var daTables = $('.datatables-users').DataTable({
             processing: true,
-            serverSide: true,
-            ajax: {
-                url: "{{ route('admin.users.index') }}",
-                type: "GET",
-                async: false,
-            },
+            serverside: true,
+            ajax: "{{ route('admin.users.index') }}",
             columnDefs: [{
                     // For Responsive
                     className: 'control',

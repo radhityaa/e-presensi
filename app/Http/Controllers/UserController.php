@@ -87,6 +87,9 @@ class UserController extends Controller
 
         $user->update($data);
 
+        $role = Role::find($request->role);
+        $user->syncRoles($role);
+
         notyf()
             ->position('x', 'center')
             ->position('y', 'top')
