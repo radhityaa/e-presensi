@@ -17,6 +17,7 @@
 <!-- Base Js File -->
 <script src="{{ asset('assets/js/base.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('assets/js/lightbox/lightbox.js') }}"></script>
 
 <script>
     am4core.ready(function() {

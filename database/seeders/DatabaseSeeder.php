@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ClassroomSeeder::class,
             StudentSeeder::class,
             SettingLocationSeeder::class,
+            AbsenceTimeSeeder::class,
         ]);
     }
 }

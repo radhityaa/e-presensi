@@ -1,7 +1,7 @@
 @extends('layouts.admin.template')
 
 @section('title')
-    Setting Lokasi Absen
+    Setting Jam Absen
 @endsection
 
 @push('page-css')
@@ -11,25 +11,24 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Setting Lokasi Absen</h4>
+            <h4 class="card-title">Setting Jam Absen</h4>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-6">
-                    <form action="{{ route('admin.settings.location') }}" method="post">
+                    <form action="" method="post">
                         @csrf
                         @method('PUT')
 
                         <div class="mb-3">
-                            <label class="form-label" for="location">Lokasi</label>
-                            <input type="text" class="form-control" id="location" name="location"
-                                value="{{ $location->location }}" placeholder="Ex: -6.369040940520025, 107.39932559111271"
-                                required>
+                            <label class="form-label" for="time_in">Jam Masuk</label>
+                            <input type="time" class="form-control" id="time_in" name="time_in"
+                                value="{{ $absence_time->time_in }}" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="radius">Radius</label>
-                            <input type="number" class="form-control" id="radius" name="radius"
-                                value="{{ $location->radius }}" placeholder="30" required>
+                            <label class="form-label" for="time_out">Jam Pulang</label>
+                            <input type="time" class="form-control" id="time_out" name="time_out"
+                                value="{{ $absence_time->time_out }}" required>
                         </div>
 
                         <div>

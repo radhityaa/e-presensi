@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MyHelper;
 use App\Models\Presensi;
 use App\Models\Submmission;
 use Illuminate\Http\Request;
@@ -17,12 +18,13 @@ class DashboardController extends Controller
         $today = Carbon::now()->toDateString();
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
+        $formattedTime = MyHelper::getAbsenceTime('in', true);
 
         $studentId = Auth::guard('student')->user()->id;
         $presensiToday = Presensi::whereDate('created_at', $today)->where('student_id', $studentId)->first();
         $presensiMonth = Presensi::whereBetween('created_at', [$startOfMonth, $endOfMonth])->where('student_id', $studentId)->latest()->get();
 
-        $rekapAbsen = Presensi::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total_absen, SUM(IF(jam_in > "07:00", 1, 0)) as total_absen_terlambat')
+        $rekapAbsen = Presensi::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total_absen, SUM(IF(jam_in > ?, 1, 0)) as total_absen_terlambat', [$formattedTime])
             ->where('student_id', $studentId)
             ->groupBy('year', 'month')
             ->first();

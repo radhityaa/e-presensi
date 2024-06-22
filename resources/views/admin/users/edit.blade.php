@@ -73,7 +73,7 @@
                         <div class="input-group input-group-merge">
                             <input type="password" name="password" id="password"
                                 class="form-control @error('password') is-invalid @enderror"
-                                placeholder="Isi jika ingin di ubah" />
+                                placeholder="Isi jika ingin di ubah" autocomplete="off" />
                             <span class="input-group-text cursor-pointer" id="basic-default-password4"><i
                                     class="ti ti-eye-off"></i></span>
                         </div>

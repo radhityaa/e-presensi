@@ -1,14 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
+    @if ($message = Session::get('error'))
+        <div class="alert alert-error">
+            {{ $message }}
+        </div>
+    @endif
+
     <div class="section" id="user-section">
         <div id="user-detail">
             <div class="avatar">
                 @if (!empty(Auth::guard('student')->user()->photo))
-                    <img src="{{ url(Storage::url('uploads/students/' . Auth::guard('student')->user()->photo)) }}"
-                        alt="avatar" class="imaged w64 rounded">
+                    <a href="{{ url(Storage::url('uploads/students/' . Auth::guard('student')->user()->photo)) }}"
+                        data-lightbox="{{ url(Storage::url('uploads/students/' . Auth::guard('student')->user()->photo)) }}">
+                        <img src="{{ url(Storage::url('uploads/students/' . Auth::guard('student')->user()->photo)) }}"
+                            alt="avatar" class="imaged w64 rounded">
+                    </a>
                 @else
-                    <img src="assets/img/sample/avatar/avatar1.jpg" alt="avatar" class="imaged w64 rounded img-fluid">
+                    <a href="{{ asset('assets/img/sample/avatar/avatar1.jpg') }}"
+                        data-lightbox="{{ asset('assets/img/sample/avatar/avatar1.jpg') }}">
+                        <img src="{{ asset('assets/img/sample/avatar/avatar1.jpg') }}" alt="avatar"
+                            class="imaged w64 rounded img-fluid">
+                    </a>
                 @endif
             </div>
             <div id="user-info">
@@ -65,8 +78,11 @@
                             <div class="presencecontent">
                                 <div class="iconpresence">
                                     @if ($presensiToday)
-                                        <img src="{{ url(Storage::url('uploads/absensi/' . $presensiToday->picture_in)) }}"
-                                            class="imaged w48 img-fluid">
+                                        <a href="{{ url(Storage::url('uploads/absensi/' . $presensiToday->picture_in)) }}"
+                                            data-lightbox="{{ url(Storage::url('uploads/absensi/' . $presensiToday->picture_in)) }}">
+                                            <img src="{{ url(Storage::url('uploads/absensi/' . $presensiToday->picture_in)) }}"
+                                                class="imaged w48 img-fluid">
+                                        </a>
                                     @else
                                         <ion-icon name="camera"></ion-icon>
                                     @endif
@@ -86,8 +102,11 @@
                             <div class="presencecontent">
                                 <div class="iconpresence">
                                     @if ($presensiToday && $presensiToday->picture_out)
-                                        <img src="{{ url(Storage::url('uploads/absensi/' . $presensiToday->picture_out)) }}"
-                                            class="imaged w48 img-fluid">
+                                        <a href="{{ url(Storage::url('uploads/absensi/' . $presensiToday->picture_out)) }}"
+                                            data-lightbox="{{ url(Storage::url('uploads/absensi/' . $presensiToday->picture_out)) }}">
+                                            <img src="{{ url(Storage::url('uploads/absensi/' . $presensiToday->picture_out)) }}"
+                                                class="imaged w48 img-fluid">
+                                        </a>
                                     @else
                                         <ion-icon name="camera"></ion-icon>
                                     @endif
@@ -167,11 +186,11 @@
                             Bulan Ini
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#profile" role="tab">
                             Leaderboard
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
             <div class="tab-content mt-2" style="margin-bottom:100px;">
@@ -180,8 +199,11 @@
                         @foreach ($presensiMonth as $item)
                             <li>
                                 <div class="item">
-                                    <img src="{{ url(Storage::url('uploads/absensi/' . $item->picture_in)) }}"
-                                        class="imaged w64 img-fluid mr-2">
+                                    <a href="{{ url(Storage::url('uploads/absensi/' . $item->picture_in)) }}"
+                                        data-lightbox="{{ url(Storage::url('uploads/absensi/' . $item->picture_in)) }}">
+                                        <img src="{{ url(Storage::url('uploads/absensi/' . $item->picture_in)) }}"
+                                            class="imaged w64 img-fluid mr-2">
+                                    </a>
                                     <div class="in">
                                         <div style="font-size: 14px;">{{ date('d-M-Y', strtotime($item->created_at)) }}
                                         </div>
@@ -201,7 +223,7 @@
                         @endforeach
                     </ul>
                 </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel">
+                {{-- <div class="tab-pane fade" id="profile" role="tabpanel">
                     <ul class="listview image-listview">
                         @foreach ($leaderboards as $item)
                             <li>
@@ -234,7 +256,7 @@
                             </li>
                         @endforeach
                     </ul>
-                </div>
+                </div> --}}
 
             </div>
         </div>

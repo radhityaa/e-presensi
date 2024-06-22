@@ -35,6 +35,14 @@
             </a>
         </li>
 
+        <!-- Schedules -->
+        <li class="menu-item {{ request()->is('admin/schedules*') ? 'active' : '' }}">
+            <a href="{{ route('admin.schedules.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-calendar-event"></i>
+                <div>Jadwal Pelajaran</div>
+            </a>
+        </li>
+
         <!-- Submissions -->
         <li class="menu-item {{ request()->is('admin/submission*') ? 'active' : '' }}">
             <a href="{{ route('admin.submission.index') }}" class="menu-link">
@@ -101,6 +109,13 @@
                 <a href="{{ route('admin.settings.location') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-map"></i>
                     <div>Lokasi</div>
+                </a>
+            </li>
+
+            <li class="menu-item {{ request()->is('admin/settings/absence-time*') ? 'active' : '' }}">
+                <a href="{{ route('admin.settings.absenceTime') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-clock"></i>
+                    <div>Jam Absen</div>
                 </a>
             </li>
 

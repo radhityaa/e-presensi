@@ -5,17 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Classroom extends Model
+class Subject extends Model
 {
     use HasFactory;
 
-    // protected $with = ['user', 'schedules'];
-    protected $fillable = ['name', 'user_id'];
-
-    public function User()
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $fillable = ['name'];
+    protected $with = ['schedules'];
 
     public function schedules()
     {

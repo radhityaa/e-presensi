@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\AdminSettingController;
 use App\Http\Controllers\admin\AdminStudentController;
 use App\Http\Controllers\admin\AdminSubmissionController;
 use App\Http\Controllers\QrCodeController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,11 @@ Route::middleware(['guest:user'])->group(function () {
 Route::middleware(['auth:user'])->group(function () {
 
     Route::prefix('admin')->name('admin.')->group(function () {
+        // Schedules
+        Route::prefix('schedules')->name('schedules.')->group(function () {
+            Route::get('', [ScheduleController::class, 'index'])->name('index');
+        });
+
         // Generate QR
         Route::get('scan', [QrCodeController::class, 'qrcode'])->name('qr.qrcode');
         Route::get('generate', [QrCodeController::class, 'generateQr'])->name('qr.generate');
@@ -87,8 +93,13 @@ Route::middleware(['auth:user'])->group(function () {
 
         // Settings
         Route::prefix('settings')->name('settings.')->group(function () {
+            // Location
             Route::get('location', [AdminSettingController::class, 'location'])->name('location');
             Route::put('location', [AdminSettingController::class, 'location']);
+
+            // absence time
+            Route::get('absence-time', [AdminSettingController::class, 'absenceTime'])->name('absenceTime');
+            Route::put('absence-time', [AdminSettingController::class, 'absenceTime']);
         });
 
         // Submissions

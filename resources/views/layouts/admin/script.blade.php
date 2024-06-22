@@ -17,6 +17,7 @@
 <script src="{{ asset('assets/template/vendor/libs/apex-charts/apexcharts.js') }}"></script>
 <script src="{{ asset('assets/template/vendor/libs/swiper/swiper.js') }}"></script>
 <script src="{{ asset('assets/template/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
+<script src="{{ asset('assets/js/lightbox/lightbox.js') }}"></script>
 
 <!-- Main JS -->
 <script src="{{ asset('assets/template/js/main.js') }}"></script>

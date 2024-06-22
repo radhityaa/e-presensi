@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\DifferenceTime;
+use App\Helpers\MyHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Presensi;
 use App\Models\Student;
@@ -31,6 +32,7 @@ class AdminReportController extends Controller
         $year = $request->year;
         $student = Student::where('nik', $nik)->first();
         $monthName = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $jamIn = MyHelper::getAbsenceTime('in');
 
         $presensis = Presensi::where('student_id', $student->id)
             ->whereMonth('created_at', $month)
@@ -41,7 +43,14 @@ class AdminReportController extends Controller
         foreach ($presensis as $item) {
             $item->image_in = $item->picture_in ? Storage::url('uploads/absensi/' . $item->picture_in) : null;
             $item->image_out = $item->picture_out ? Storage::url('uploads/absensi/' . $item->picture_out) : null;
-            $item->difference = DifferenceTime::calculateTimeDifference('07:00:00', $item->jam_in);
+            $item->difference = DifferenceTime::calculateTimeDifference($jamIn, $item->jam_in);
+        }
+
+        if (isset($_POST['exportexcel'])) {
+            $time = date('Y-m-d H:i:s');
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment; filename="' . $student->name . '-rekap-absen-' . $time . '.xls"');
+            return view('admin.report.excel', compact('nik', 'month', 'monthName', 'year', 'student', 'presensis'));
         }
 
         return view('admin.report.print', compact('nik', 'month', 'monthName', 'year', 'student', 'presensis'));
@@ -71,6 +80,11 @@ class AdminReportController extends Controller
             ->groupBy('students.nik', 'students.name')
             ->get();
 
+        if (isset($_POST['exportexcel'])) {
+            $time = date('Y-m-d H:i:s');
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment; filename="rekap-presensi-' . $time . '.xls"');
+        }
         return view('admin.report.rekap_print', compact('month', 'monthName', 'year', 'rekap'));
     }
 }

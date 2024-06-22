@@ -55,7 +55,7 @@
                                         class="tf-icons ti ti-printer me-2"></i>Cetak</button>
                             </div>
                             <div class="mb-3">
-                                <button type="button" class="btn btn-success" id="export"><i
+                                <button type="submit" class="btn btn-success" id="export" name="exportexcel"><i
                                         class="tf-icons ti ti-file-spreadsheet me-2"></i> Export Excel</button>
                             </div>
                         </div>

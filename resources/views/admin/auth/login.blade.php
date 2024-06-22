@@ -103,7 +103,7 @@
                         <div class="mb-3">
                             <label for="nik" class="form-label">Nik</label>
                             <input type="text" class="form-control" id="nik" name="nik"
-                                placeholder="example@mail.com" autofocus required />
+                                placeholder="123456789" autofocus required />
                         </div>
                         <div class="mb-3 form-password-toggle">
                             <div class="d-flex justify-content-between">

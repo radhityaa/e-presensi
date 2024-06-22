@@ -164,14 +164,14 @@
                                 }
                             @endphp
                             @if ($dateTime !== '')
-                                <td class="{{ $isLate ? 'late' : '' }}">{{ $jamIn }} -
+                                <td style="padding: 1px;" class="{{ $isLate ? 'late' : '' }}">{{ $jamIn }} -
                                     {{ $jamOut !== '00:00:00' ? $jamOut : '' }}</td>
                             @else
                                 <td></td>
                             @endif
                         @endfor
-                        <td style="text-align: center;">{{ $hadir }}</td>
-                        <td style="text-align: center;">{{ $terlambat }}</td>
+                        <td style="text-align: center; padding: 0px;">{{ $hadir }}</td>
+                        <td style="text-align: center; padding: 0px;">{{ $terlambat }}</td>
                         @php
                             $totalHadir[$item->name] = isset($totalHadir[$item->name])
                                 ? $totalHadir[$item->name] + $hadir

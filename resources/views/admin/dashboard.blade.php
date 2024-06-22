@@ -26,7 +26,7 @@
                                 <i class="ti ti-fingerprint ti-sm"></i>
                             </div>
                             <div class="card-info">
-                                <h5 class="mb-0">{{ empty($rekapAbsen->total_absen) ? 0 : $rekapAbsen->total_absen }}</h5>
+                                <h5 class="mb-0">{{ empty($rekapAbsen->total_hadir) ? 0 : $rekapAbsen->total_hadir }}</h5>
                                 <small>Hadir</small>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                             </div>
                             <div class="card-info">
                                 <h5 class="mb-0">
-                                    {{ empty($rekapAbsen->total_absen_terlambat) ? 0 : $rekapAbsen->total_absen_terlambat }}
+                                    {{ empty($rekapAbsen->total_terlambat) ? 0 : $rekapAbsen->total_terlambat }}
                                 </h5>
                                 <small>Terlambat</small>
                             </div>
@@ -112,7 +112,9 @@
                         <table class="table table-hover datatables-monitoring">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>#</th>
                                     <th>NIK</th>
                                     <th>Nama</th>
                                     <th>Kelas</th>
@@ -121,7 +123,7 @@
                                     <th>Jam Pulang</th>
                                     <th>Foto</th>
                                     <th>Keterangan</th>
-                                    <th></th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0" id="table-body-presensi"></tbody>
@@ -165,9 +167,12 @@
                             </div>
                             <div class="col">
                                 <label for="picture_in" class="form-label">Foto Absen Masuk</label>
-                                <div class="avatar me-2 img-fluid" style="width: 50px; height: 50px;">
-                                    <img src="{{ asset('assets/img/sample/avatar/avatar1.jpg') }}"
-                                        class="rounded img-fluid" id="picture_in" name="picture_in">
+                                <div class="avatar me-2 img-fluid overflow-hidden" style="width: 50px; height: 50px;">
+                                    <a href="{{ asset('assets/img/sample/avatar/avatar1.jpg') }}" id="href_picture_in"
+                                        data-lightbox="{{ asset('assets/img/sample/avatar/avatar1.jpg') }}">
+                                        <img src="{{ asset('assets/img/sample/avatar/avatar1.jpg') }}"
+                                            class="rounded img-fluid" id="picture_in" name="picture_in">
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -179,9 +184,12 @@
                             </div>
                             <div class="col">
                                 <label for="picture_in" class="form-label">Foto Absen Pulang</label>
-                                <div class="avatar me-2 img-fluid" style="width: 50px; height: 50px;">
-                                    <img src="{{ asset('assets/img/sample/avatar/avatar1.jpg') }}"
-                                        class="rounded img-fluid" id="picture_out" name="picture_out">
+                                <div class="avatar me-2 img-fluid overflow-hidden" style="width: 50px; height: 50px;">
+                                    <a href="{{ asset('assets/img/sample/avatar/avatar1.jpg') }}" id="href_picture_out"
+                                        data-lightbox="{{ asset('assets/img/sample/avatar/avatar1.jpg') }}">
+                                        <img src="{{ asset('assets/img/sample/avatar/avatar1.jpg') }}"
+                                            class="rounded img-fluid" id="picture_out" name="picture_out">
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -211,8 +219,7 @@
     <script src="{{ asset('assets/template/vendor/libs/flatpickr/flatpickr.js') }}"></script>
     <script src="{{ asset('assets/template/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('assets/template/vendor/libs/flatpickr/flatpickr.js') }}"></script>
-    <script src="{{ asset('assets/template/vendor/libs/leaflet/leaflet.js') }}"></script>
-    <script src="{{ asset('assets/js/core/monitoring.js') }}"></script>
+
     <script>
         let url = '';
         let method = '';
@@ -230,6 +237,121 @@
         function getMethod() {
             return method
         }
+
+        var daTables = $('.datatables-monitoring').DataTable({
+            processing: true,
+            serverside: true,
+            ajax: "{{ route('admin.dashboard') }}",
+            columnDefs: [{
+                    // For Responsive
+                    className: 'control',
+                    orderable: false,
+                    searchable: false,
+                    responsivePriority: 2,
+                    targets: 0,
+                    render: function(data, type, full, meta) {
+                        return '';
+                    },
+                },
+                {
+                    target: 1,
+                    visible: false
+                },
+                {
+                    targets: 3,
+                    responsivePriority: 3
+                },
+                {
+                    targets: 4,
+                    responsivePriority: 1,
+                },
+            ],
+            columns: [{
+                    data: '',
+                    name: ''
+                },
+                {
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'student.nik',
+                    name: 'student.nik'
+                },
+                {
+                    data: 'student.name',
+                    name: 'student.name'
+                },
+                {
+                    data: 'student.classroom.name',
+                    name: 'student.classroom.name',
+                },
+                {
+                    data: 'jam_in',
+                    name: 'jam_in'
+                },
+                {
+                    data: 'picture_in',
+                    name: 'picture_in',
+                },
+                {
+                    data: 'jam_out',
+                    name: 'jam_out'
+                },
+                {
+                    data: 'picture_out',
+                    name: 'picture_out',
+                },
+                {
+                    data: 'keterangan',
+                    name: 'keterangan',
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ],
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.modal({
+                        header: function(row) {
+                            var data = row.data();
+                            return data['name'];
+                        }
+                    }),
+                    type: 'column',
+                    renderer: function(api, rowIdx, columns) {
+                        var data = $.map(columns, function(col, i) {
+                            return col.title !==
+                                '' // ? Do not show row in modal popup if title is blank (for check box)
+                                ?
+                                '<tr data-dt-row="' +
+                                col.rowIndex +
+                                '" data-dt-column="' +
+                                col.columnIndex +
+                                '">' +
+                                '<td>' +
+                                col.title +
+                                ':' +
+                                '</td> ' +
+                                '<td>' +
+                                col.data +
+                                '</td>' +
+                                '</tr>' :
+                                '';
+                        }).join('');
+
+                        return data ? $('<table class="table"/><tbody />').append(data) : false;
+                    }
+                }
+            }
+        })
 
         function calculateTimeDifference(jam_in, jam_out) {
             // Parse jam_in
@@ -256,7 +378,8 @@
             $('.btn-save').addClass('d-none')
             $('.modal-body form').find('input').prop('disabled', true);
             $('#formModalLabel').text('Detail Absensi')
-
+            let time = $('#btn-show').attr('data-time')
+            let formattedTime = $('#btn-show').attr('data-formatted-time')
 
             let showUrl = "{!! route('admin.presensi.show', ':id') !!}"
             showUrl = showUrl.replace(':id', id)
@@ -268,8 +391,8 @@
                 $('#jam_in').val(res.jam_in)
                 $('#jam_out').val(res.jam_out)
 
-                if (res.jam_in >= '07:00') {
-                    $('#keterangan').val('Terlambat: ' + calculateTimeDifference('07:00:00', res
+                if (res.jam_in >= formattedTime) {
+                    $('#keterangan').val('Terlambat: ' + calculateTimeDifference(time, res
                         .jam_in))
                 } else {
                     $('#keterangan').val("Tepat Waktu")
@@ -278,10 +401,14 @@
                 // Image
                 var imageUrlIn = "{{ url(Storage::url('uploads/absensi/')) }}" + "/" + res.picture_in
                 $('#picture_in').attr('src', imageUrlIn)
+                $('#href_picture_in').attr('href', imageUrlIn)
+                $('#href_picture_in').attr('data-lightbox', imageUrlIn)
 
                 if (res.picture_out != null) {
                     var imageUrlOut = "{{ url(Storage::url('uploads/absensi/')) }}" + "/" + res.picture_out
                     $('#picture_out').attr('src', imageUrlOut)
+                    $('#href_picture_out').attr('href', imageUrlOut)
+                    $('#href_picture_out').attr('data-lightbox', imageUrlOut)
                 }
 
                 // Maps / Location

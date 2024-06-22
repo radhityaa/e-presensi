@@ -110,26 +110,6 @@ class PresensiController extends Controller
                         Storage::put($file, $imageBase64);
                         $qrcode->delete();
 
-                        Http::post('https://panel.ayasyatech.com/send-message', [
-                            'message' => 'Absen Masuk Berhasil',
-                            'number' => '0895347113987'
-                        ]);
-
-                        // $curl = curl_init();
-                        // curl_setopt_array($curl, array(
-                        //     CURLOPT_URL => 'https://panel.ayasyatech.com/send-message',
-                        //     CURLOPT_RETURNTRANSFER => true,
-                        //     CURLOPT_ENCODING => '',
-                        //     CURLOPT_MAXREDIRS => 10,
-                        //     CURLOPT_TIMEOUT => 0,
-                        //     CURLOPT_FOLLOWLOCATION => true,
-                        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        //     CURLOPT_CUSTOMREQUEST => 'POST',
-                        //     CURLOPT_POSTFIELDS => array('message' => 'oke', 'number' => '0895347113987'),
-                        // ));
-                        // $response = curl_exec($curl);
-                        // curl_close($curl);
-
                         return response()->json([
                             'success' => true,
                             'type' => 'in',

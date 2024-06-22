@@ -16,6 +16,7 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/img/logo.png') }}" sizes="32x32">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="manifest" href="__manifest.json">
+    <link rel="stylesheet" href="{{ asset('assets/css/lightbox/lightbox.css') }}">
 
     @stack('page-css')
 </head>

@@ -27,6 +27,7 @@
         href="{{ asset('assets/template/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}" />
     <link rel="stylesheet"
         href="{{ asset('assets/template/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/lightbox/lightbox.css') }}" />
 
     <!-- Page CSS -->
     @stack('page-css')

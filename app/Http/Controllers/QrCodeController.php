@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Presensi;
 use App\Models\Qrcode as ModelsQrcode;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -40,6 +42,18 @@ class QrCodeController extends Controller
     public function scan()
     {
         $title = 'Scan QR Code';
+        $userId = Auth::guard('student')->user()->id;
+        $today = Carbon::today();
+
+        $alreadyCheckedOut = Presensi::where('student_id', $userId)
+            ->whereDate('created_at', $today)
+            ->whereNotNull('jam_out')
+            ->exists();
+
+        if ($alreadyCheckedOut) {
+            return redirect(route('dashboard'))->with(['error' => 'Tidak Dapat Absen Kembali Setelah Absen Pulang']);
+        }
+
         return view('presensi.scan', compact('title'));
     }
 
