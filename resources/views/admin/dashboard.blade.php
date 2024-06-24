@@ -223,6 +223,7 @@
     <script>
         let url = '';
         let method = '';
+        let filter
 
         $.ajaxSetup({
             headers: {
@@ -234,6 +235,10 @@
             return url
         }
 
+        function refresh() {
+            daTables.ajax.reload(null, false)
+        }
+
         function getMethod() {
             return method
         }
@@ -241,7 +246,13 @@
         var daTables = $('.datatables-monitoring').DataTable({
             processing: true,
             serverside: true,
-            ajax: "{{ route('admin.dashboard') }}",
+            ajax: {
+                url: "{{ route('admin.dashboard') }}",
+                type: "GET",
+                data: function(d) {
+                    d.filter = filter
+                }
+            },
             columnDefs: [{
                     // For Responsive
                     className: 'control',
@@ -434,5 +445,17 @@
                     .openOn(mapPresensi);
             })
         }
+
+        var datePicker = $("#date-presensi").datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            format: 'yyyy-mm-dd'
+        });
+
+        datePicker.on('change', function() {
+            filter = $(this).val()
+            refresh()
+            return filter
+        })
     </script>
 @endpush

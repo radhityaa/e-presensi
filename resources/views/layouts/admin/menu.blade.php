@@ -28,7 +28,7 @@
 
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item {{ request()->is('dsahboard') ? 'active' : '' }}">
+        <li class="menu-item {{ request()->is('admin/dashboard') ? 'active' : '' }}">
             <a href="{{ route('admin.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
                 <div>Dashboards</div>
@@ -117,6 +117,26 @@
                     <i class="menu-icon tf-icons ti ti-clock"></i>
                     <div>Jam Absen</div>
                 </a>
+            </li>
+
+            <li class="menu-item {{ request()->is('admin/settings/*') ? 'active open' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons ti ti-calendar-event"></i>
+                    <div>Jadwal Pelajaran</div>
+                </a>
+
+                <ul class="menu-sub">
+                    <li class="menu-item {{ request()->is('admin/settings/subjects*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.settings.subjects.index') }}" class="menu-link">
+                            <div>Mata Pelajaran</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->is('admin/settings/schedules*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.settings.schedules.index') }}" class="menu-link">
+                            <div>Ubah Jadwal</div>
+                        </a>
+                    </li>
+                </ul>
             </li>
 
             <!-- Misc -->

@@ -5,8 +5,10 @@ use App\Http\Controllers\admin\AdminClassroomController;
 use App\Http\Controllers\admin\AdminDashboardController;
 use App\Http\Controllers\admin\AdminPresensiController;
 use App\Http\Controllers\admin\AdminReportController;
+use App\Http\Controllers\admin\AdminScheduleController;
 use App\Http\Controllers\admin\AdminSettingController;
 use App\Http\Controllers\admin\AdminStudentController;
+use App\Http\Controllers\admin\AdminSubjectController;
 use App\Http\Controllers\admin\AdminSubmissionController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\ScheduleController;
@@ -26,6 +28,8 @@ Route::middleware(['auth:user'])->group(function () {
         // Schedules
         Route::prefix('schedules')->name('schedules.')->group(function () {
             Route::get('', [ScheduleController::class, 'index'])->name('index');
+            Route::get('get-class', [ScheduleController::class, 'getClass'])->name('getClass');
+            Route::get('get-scheules', [ScheduleController::class, 'getSchedules'])->name('getSchedules');
         });
 
         // Generate QR
@@ -100,6 +104,24 @@ Route::middleware(['auth:user'])->group(function () {
             // absence time
             Route::get('absence-time', [AdminSettingController::class, 'absenceTime'])->name('absenceTime');
             Route::put('absence-time', [AdminSettingController::class, 'absenceTime']);
+
+            // Subject
+            Route::prefix('subjects')->name('subjects.')->group(function () {
+                Route::get('', [AdminSubjectController::class, 'index'])->name('index');
+                Route::post('', [AdminSubjectController::class, 'store'])->name('store');
+                Route::get('{id}/edit', [AdminSubjectController::class, 'edit'])->name('edit');
+                Route::put('{id}/edit', [AdminSubjectController::class, 'update'])->name('update');
+                Route::delete('{id}', [AdminSubjectController::class, 'destroy'])->name('destroy');
+            });
+
+            // Schedules
+            Route::prefix('schedules')->name('schedules.')->group(function () {
+                Route::get('', [AdminScheduleController::class, 'index'])->name('index');
+                Route::post('', [AdminScheduleController::class, 'store'])->name('store');
+                Route::get('get-schedules', [AdminScheduleController::class, 'list'])->name('list');
+                Route::get('get-subjects', [AdminScheduleController::class, 'subjects'])->name('subjects');
+                Route::get('get-users', [AdminScheduleController::class, 'users'])->name('users');
+            });
         });
 
         // Submissions
