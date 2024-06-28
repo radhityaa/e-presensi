@@ -25,16 +25,38 @@ class UserController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->editColumn('status', function ($row) {
+                    switch ($row->status) {
+                        case 1:
+                            return '<span class="badge bg-success">Aktif</span>';
+                            break;
+                        case 2:
+                            return '<span class="badge bg-danger">Tidak Aktif</span>';
+                            break;
+                        default:
+                            return '<span class="badge bg-warning">Pending</span>';
+                            break;
+                    }
+                })
                 ->addColumn('action', function ($row) {
                     if (Auth::user()->hasRole('admin|staff')) {
                         $btn_edit = '<a href="' . route('admin.users.edit', $row->nik) . '" class="btn btn-sm btn-icon item-view"><i class="text-warning ti ti-pencil"></i></a>';
                         $btn_delete = '<button class="btn btn-sm btn-icon item-delete" data-nik="' . $row->nik . '"><i class="text-danger ti ti-trash"></i></button>';
+                        $btn_approve = '<button class="btn btn-sm btn-icon item-approve" data-nik="' . $row->nik . '"><i class="text-success ti ti-circle-check"></i></button>';
+                        $btn_reject = '<button class="btn btn-sm btn-icon item-reject" data-nik="' . $row->nik . '"><i class="text-danger ti ti-circle-x"></i></button>';
+
+                        if ($row->status === 0 || $row->status === 2) {
+                            return '<div class="btn-group">' . $btn_approve . $btn_edit . $btn_delete  . '</div>';
+                        } else if ($row->status === 1) {
+                            return '<div class="btn-group">' . $btn_reject . $btn_edit . $btn_delete  . '</div>';
+                        }
+
                         return '<div class="btn-group">' . $btn_edit . $btn_delete . '</div>';
                     } else {
                         return '';
                     }
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['status', 'action'])
                 ->make(true);
         }
 
@@ -48,6 +70,7 @@ class UserController extends Controller
             'nik'           => $request->nik,
             'email'         => $request->email,
             'phone'         => $request->phone,
+            'status'        => $request->status,
             'password'      =>  Hash::make($request->password)
         ];
 
@@ -85,6 +108,7 @@ class UserController extends Controller
                 'nik'           => $request->nik,
                 'email'         => $request->email,
                 'phone'         => $request->phone,
+                'status'         => $request->status,
                 'password'      => Hash::make($request->password)
             ];
         } else {
@@ -93,6 +117,7 @@ class UserController extends Controller
                 'nik'           => $request->nik,
                 'email'         => $request->email,
                 'phone'         => $request->phone,
+                'status'         => $request->status,
             ];
         }
 
@@ -111,5 +136,16 @@ class UserController extends Controller
     public function destroy($nik)
     {
         return User::where('nik', $nik)->delete();
+    }
+
+    public function status(Request $request)
+    {
+        $user = User::where('nik', $request->nik)->first();
+        $user->update(['status' => $request->status]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status Berhasil ' . ($request->status == 1 ? 'Diaktifkan' : 'DiTidak Aktifkan')
+        ]);
     }
 }

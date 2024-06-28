@@ -28,6 +28,7 @@ class RolePermissionSeeder extends Seeder
             'nik' => '1234567890',
             'phone' => '0895347113987',
             'email' => 'admin@gmail.com',
+            'status' => 1,
             'password' => bcrypt('password'),
         ]);
         $admin->assignRole($roleAdmin);
@@ -37,6 +38,7 @@ class RolePermissionSeeder extends Seeder
             'nik' => '1234567891',
             'phone' => '0895347113987',
             'email' => 'staff@gmail.com',
+            'status' => 1,
             'password' => bcrypt('password'),
         ]);
         $staff->assignRole($roleStaff);
@@ -46,6 +48,7 @@ class RolePermissionSeeder extends Seeder
             'nik' => '1234567892',
             'phone' => '0895347113987',
             'email' => 'guru@gmail.com',
+            'status' => 1,
             'password' => bcrypt('password'),
         ]);
         $guru->assignRole($roleGuru);
@@ -55,6 +58,7 @@ class RolePermissionSeeder extends Seeder
             'nik' => '1234567893',
             'phone' => '0895347113987',
             'email' => 'walikelas@gmail.com',
+            'status' => 1,
             'password' => bcrypt('password'),
         ]);
         $walikelas->assignRole($roleWalikelas);

@@ -1,17 +1,5 @@
 @extends('layouts.app')
 
-@section('header')
-    <div class="appHeader bg-primary text-light">
-        <div class="left">
-            <a href="javascript:;" class="headerButton goBack">
-                <ion-icon name="chevron-back-outline"></ion-icon>
-            </a>
-        </div>
-        <div class="pageTitle">E-Presensi</div>
-        <div class="right"></div>
-    </div>
-@endsection
-
 @push('page-css')
     <style>
         .webcam-capture,
@@ -43,7 +31,7 @@
     </div>
 
     <div class="row">
-        <div class="col">
+        <div class="col text-center">
             @if ($validate)
                 <button id="absen" class="btn btn-danger btn-block">
                     <ion-icon name="camera-outline"></ion-icon>
@@ -71,8 +59,9 @@
     </audio>
 @endsection
 
-@push('page-script')
+@push('page-js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         var notifIn = document.getElementById('notif_in')

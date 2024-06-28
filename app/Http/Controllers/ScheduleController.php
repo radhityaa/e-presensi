@@ -13,31 +13,14 @@ class ScheduleController extends Controller
 {
     public function index(Request $request)
     {
-        $classrooms = Classroom::all();
+        $classrooms = Classroom::orderBy('name')->all();
 
         return view('schedules.index', compact('classrooms'));
     }
 
     public function getClass()
     {
-        $classrooms = Classroom::all();
+        $classrooms = Classroom::orderBy('name')->all();
         return response()->json($classrooms);
-    }
-
-    public function getSchedules(Request $request)
-    {
-        $classroomId = $request->classroom_id;
-        $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
-
-        $schedulesByDay = [];
-
-        foreach ($days as $day) {
-            $schedulesByDay[$day] = Schedule::with(['subject', 'user'])
-                ->where('classroom_id', $classroomId)
-                ->where('day', $day)
-                ->get();
-        }
-
-        return response()->json($schedulesByDay);
     }
 }

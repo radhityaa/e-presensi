@@ -63,6 +63,7 @@ Route::middleware(['auth:user'])->group(function () {
                 Route::get('', [UserController::class, 'index'])->name('index');
                 Route::get('create', [UserController::class, 'create'])->name('create');
                 Route::post('create', [UserController::class, 'store'])->name('store');
+                Route::post('status', [UserController::class, 'status'])->name('status');
                 Route::get('{nik}/edit', [UserController::class, 'edit'])->name('edit');
                 Route::put('{nik}/edit', [UserController::class, 'update'])->name('update');
                 Route::delete('{nik}', [UserController::class, 'destroy'])->name('destroy');
@@ -75,6 +76,7 @@ Route::middleware(['auth:user'])->group(function () {
                 Route::get('', [AdminStudentController::class, 'index'])->name('index');
                 Route::post('', [AdminStudentController::class, 'store'])->name('store');
                 Route::get('create', [AdminStudentController::class, 'create'])->name('create');
+                Route::post('status', [AdminStudentController::class, 'status'])->name('status');
                 Route::get('{student}', [AdminStudentController::class, 'show'])->name('show');
                 Route::get('{student}/edit', [AdminStudentController::class, 'edit'])->name('edit');
                 Route::put('{student}/edit', [AdminStudentController::class, 'update'])->name('update');

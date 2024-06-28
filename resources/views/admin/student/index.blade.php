@@ -37,6 +37,7 @@
                             <th>NIK</th>
                             <th>Nama</th>
                             <th>Kelas</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -56,6 +57,98 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        function reload() {
+            $('.datatables-students').DataTable().ajax.reload();
+        }
+
+        function actionStatus(nik, status) {
+            let urlStatus = "{{ route('admin.student.status', ':nik') }}"
+            urlStatus = urlStatus.replace(':nik', nik)
+
+            $.ajax({
+                url: urlStatus,
+                type: 'POST',
+                data: {
+                    nik: nik,
+                    status: status
+                },
+                success: function(res) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: res.message,
+                        customClass: {
+                            confirmButton: 'btn btn-success waves-effect waves-light'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed || result.isDismissed) {
+                            reload()
+                        }
+                    });
+                },
+                error: function(err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: err.responseJSON.message,
+                        customClass: {
+                            confirmButton: 'btn btn-success waves-effect waves-light'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed || result.isDismissed) {
+                            reload()
+                        }
+                    });
+                }
+            });
+        }
+
+        $('body').on('click', '.item-approve', function() {
+            var nik = $(this).data('nik')
+            var urlStatus = "{{ route('admin.student.status', ':nik') }}"
+            urlStatus = urlStatus.replace(':nik', nik)
+
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: 'Siswa dengan NIK ' + nik + ' akan diaktifkan.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yakin, Aktifkan',
+                showLoaderOnConfirm: true,
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                    cancelButton: 'btn btn-label-danger waves-effect waves-light'
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    actionStatus(nik, 1)
+                }
+            });
+        })
+
+        $('body').on('click', '.item-reject', function() {
+            var nik = $(this).data('nik')
+            var urlStatus = "{{ route('admin.student.status', ':nik') }}"
+            urlStatus = urlStatus.replace(':nik', nik)
+
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: 'Siswa dengan NIK ' + nik + ' akan di tidak aktifkan.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yakin, Tidak Aktifkan',
+                showLoaderOnConfirm: true,
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                    cancelButton: 'btn btn-label-danger waves-effect waves-light'
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    actionStatus(nik, 2)
+                }
+            });
+        })
 
         $(document).on('click', '.item-delete', function() {
             var nik = $(this).data('nik')
@@ -86,8 +179,11 @@
                                 customClass: {
                                     confirmButton: 'btn btn-success waves-effect waves-light'
                                 }
+                            }).then((result) => {
+                                if (result.isConfirmed || result.isDismissed) {
+                                    $('.datatables-students').DataTable().ajax.reload();
+                                }
                             });
-                            $('.datatables-students').DataTable().ajax.reload();
                         },
                         error: function(xhr) {
                             Swal.fire({
@@ -97,8 +193,11 @@
                                 customClass: {
                                     confirmButton: 'btn btn-success waves-effect waves-light'
                                 }
+                            }).then((result) => {
+                                if (result.isConfirmed || result.isDismissed) {
+                                    $('.datatables-students').DataTable().ajax.reload();
+                                }
                             });
-                            $('.datatables-students').DataTable().ajax.reload();
                         }
                     });
                 }
@@ -156,6 +255,10 @@
                 {
                     data: 'classroom.name',
                     name: 'classroom.name'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
                 },
                 {
                     data: 'action',

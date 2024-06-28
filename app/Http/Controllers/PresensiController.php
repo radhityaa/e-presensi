@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MyHelper;
 use App\Models\Presensi;
 use App\Models\Qrcode;
 use App\Models\SettingLocation;
@@ -152,13 +153,15 @@ class PresensiController extends Controller
         $studentId = Auth::guard('student')->user()->id;
         $month = $request->month;
         $year = $request->year;
+        $formattedTime = MyHelper::getAbsenceTime('in', true);
+        $timeIn = MyHelper::getAbsenceTime('in');
 
         $histories = Presensi::whereRaw('MONTH(created_at)="' . $month . '"')
             ->whereRaw('YEAR(created_at)="' . $year . '"')
             ->where('student_id', $studentId)
             ->orderBy('created_at')
-            ->get();
+            ->paginate(1);
 
-        return view('presensi.history.get', compact('histories'));
+        return view('presensi.history.get', compact('histories', 'formattedTime', 'timeIn'));
     }
 }

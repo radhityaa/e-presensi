@@ -218,7 +218,6 @@
 @push('page-js')
     <script src="{{ asset('assets/template/vendor/libs/flatpickr/flatpickr.js') }}"></script>
     <script src="{{ asset('assets/template/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
-    <script src="{{ asset('assets/template/vendor/libs/flatpickr/flatpickr.js') }}"></script>
 
     <script>
         let url = '';

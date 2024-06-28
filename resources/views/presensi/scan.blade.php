@@ -1,17 +1,5 @@
 @extends('layouts.app')
 
-@section('header')
-    <div class="appHeader bg-primary text-light">
-        <div class="left">
-            <a href="javascript:;" class="headerButton goBack">
-                <ion-icon name="chevron-back-outline"></ion-icon>
-            </a>
-        </div>
-        <div class="pageTitle">Scan QR Code</div>
-        <div class="right"></div>
-    </div>
-@endsection
-
 @section('content')
     <div class="d-flex justify-content-center mx-auto align-items-center">
         <div class="row" style="margin-top: 70px;">
@@ -22,8 +10,9 @@
     </div>
 @endsection
 
-@push('page-script')
+@push('page-js')
     <script src="{{ asset('assets/js/html5-qrcode.min.js') }}" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         function onScanSuccess(decodedText, decodedResult) {

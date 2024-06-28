@@ -2,76 +2,99 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classroom;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return view('auth.login');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         if (Auth::guard('student')->attempt(['nik' => $request->nik, 'password' => $request->password])) {
-            return redirect(route('dashboard'));
+            if (Auth::guard('student')->user()->status === 0) {
+                notyf()
+                    ->position('x', 'center')
+                    ->position('y', 'top')
+                    ->addError('Akun Belum Aktif.');
+                return redirect(route('auth.login.index'));
+            } else if (Auth::guard('student')->user()->status === 2) {
+                notyf()
+                    ->position('x', 'center')
+                    ->position('y', 'top')
+                    ->addError('Akun Tidak Aktif.');
+                return redirect(route('auth.login.index'));
+            } else if (Auth::guard('student')->user()->status === 1) {
+                return redirect(route('dashboard'));
+            }
         } else {
-            return redirect(route('login.index'))->with(['error' => 'NIK / Password Salah']);
+            notyf()
+                ->position('x', 'center')
+                ->position('y', 'top')
+                ->addError('Nik / Password Salah.');
+            return redirect(route('auth.login.index'));
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 
     public function logout()
     {
         if (Auth::guard('student')->check()) {
             Auth::guard('student')->logout();
-            return redirect(route('login.index'));
+            return redirect(route('auth.login.index'));
+        }
+    }
+
+    public function register()
+    {
+        $classrooms = Classroom::orderBy('name')->get();
+
+        return view('auth.register', compact('classrooms'));
+    }
+
+    public function registerStore(Request $request)
+    {
+        $request->validate([
+            'nik' => 'required|unique:students,nik',
+            'name' => 'required|string',
+            'phone' => 'required|unique:students,phone',
+            'address' => 'required',
+            'classroom_id' => 'required|exists:classrooms,id',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            Student::create([
+                'name'          => $request->name,
+                'nik'           => $request->nik,
+                'classroom_id'  => $request->classroom_id,
+                'phone'         => $request->phone,
+                'address'       => $request->address,
+                'status'        => $request->status,
+                'password'      => Hash::make($request->password),
+                'status'        => 0
+            ]);
+
+            DB::commit();
+            notyf()
+                ->position('x', 'center')
+                ->position('y', 'top')
+                ->addSuccess('Berhasil Mendaftar, Menunggu Akun DiAktifkan');
+            return redirect(route('auth.login.index'));
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            notyf()
+                ->position('x', 'center')
+                ->position('y', 'top')
+                ->addError('Terjadi Kesalahan Server:' . $th->getMessage());
+            return redirect(route('auth.login.index'));
         }
     }
 }

@@ -19,6 +19,7 @@ class StudentSeeder extends Seeder
             'classroom_id' => 1,
             'phone' => "0895347113987",
             'address' => 'Karawang',
+            'status' => 1,
             'password' => bcrypt('password')
         ]);
     }

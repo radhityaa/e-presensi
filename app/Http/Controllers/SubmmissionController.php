@@ -11,8 +11,10 @@ class SubmmissionController extends Controller
 {
     public function index()
     {
-        $submissions = Submmission::where('student_id', Auth::guard('student')->user()->id)->get();
-        return view('presensi.submission.index', compact('submissions'));
+        $title = 'Pengajuan Presensi';
+        $submissions = Submmission::where('student_id', Auth::guard('student')->user()->id)->paginate(5);
+
+        return view('presensi.submission.index', compact('submissions', 'title'));
     }
 
     public function create()

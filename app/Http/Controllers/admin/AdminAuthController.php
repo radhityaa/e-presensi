@@ -11,7 +11,21 @@ class AdminAuthController extends Controller
     public function store(Request $request)
     {
         if (Auth::guard('user')->attempt(['nik' => $request->nik, 'password' => $request->password])) {
-            return redirect(route('admin.dashboard'));
+            if (Auth::guard('user')->user()->status === 0) {
+                notyf()
+                    ->position('x', 'center')
+                    ->position('y', 'top')
+                    ->addError('Akun Belum Aktif');
+                return redirect(route('admin.login.index'));
+            } else if (Auth::guard('user')->user()->status === 2) {
+                notyf()
+                    ->position('x', 'center')
+                    ->position('y', 'top')
+                    ->addError('Akun Tidak Aktif');
+                return redirect(route('admin.login.index'));
+            } else if (Auth::guard('user')->user()->status === 1) {
+                return redirect(route('admin.dashboard'));
+            }
         } else {
             notyf()
                 ->position('x', 'center')

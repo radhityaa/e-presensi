@@ -38,6 +38,7 @@
                             <th>NIK</th>
                             <th>Nomor HP</th>
                             <th>Email</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -168,6 +169,10 @@
                     name: 'email'
                 },
                 {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -208,6 +213,94 @@
                     }
                 }
             }
+        })
+
+        function actionStatus(nik, status) {
+            let urlStatus = "{{ route('admin.users.status', ':nik') }}"
+            urlStatus = urlStatus.replace(':nik', nik)
+
+            $.ajax({
+                url: urlStatus,
+                type: 'POST',
+                data: {
+                    nik: nik,
+                    status: status
+                },
+                success: function(res) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: res.message,
+                        customClass: {
+                            confirmButton: 'btn btn-success waves-effect waves-light'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed || result.isDismissed) {
+                            reload()
+                        }
+                    });
+                },
+                error: function(err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: err.responseJSON.message,
+                        customClass: {
+                            confirmButton: 'btn btn-success waves-effect waves-light'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed || result.isDismissed) {
+                            reload()
+                        }
+                    });
+                }
+            });
+        }
+
+        $('body').on('click', '.item-approve', function() {
+            var nik = $(this).data('nik')
+            var urlStatus = "{{ route('admin.users.status', ':nik') }}"
+            urlStatus = urlStatus.replace(':nik', nik)
+
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: 'User dengan NIK ' + nik + ' akan diaktifkan.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yakin, Aktifkan',
+                showLoaderOnConfirm: true,
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                    cancelButton: 'btn btn-label-danger waves-effect waves-light'
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    actionStatus(nik, 1)
+                }
+            });
+        })
+
+        $('body').on('click', '.item-reject', function() {
+            var nik = $(this).data('nik')
+            var urlStatus = "{{ route('admin.users.status', ':nik') }}"
+            urlStatus = urlStatus.replace(':nik', nik)
+
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: 'User dengan NIK ' + nik + ' akan di tidak aktifkan.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yakin, Tidak Aktifkan',
+                showLoaderOnConfirm: true,
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                    cancelButton: 'btn btn-label-danger waves-effect waves-light'
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    actionStatus(nik, 2)
+                }
+            });
         })
     </script>
 @endpush
