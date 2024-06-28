@@ -18,9 +18,9 @@
                             Dengan Klik Tombol Dibawah ini.
                         </h2>
                         <div class="landing-hero-btn d-inline-block position-relative">
-                            <a href="#cekAbsensi" class="btn btn-primary btn-lg">Cek Absensi</a>
-                            <a href="#jadwalPelajaran" class="btn btn-info btn-lg">Jadwal Pelajaran</a>
-                            <a href="{{ route('auth.login.index') }}" class="btn btn-success btn-lg">Absen</a>
+                            <a href="#cekAbsensi" class="mb-3 me-2 btn btn-primary btn-lg">Cek Absensi</a>
+                            <a href="#jadwalPelajaran" class="mb-3 me-2 btn btn-info btn-lg">Jadwal Pelajaran</a>
+                            <a href="{{ route('auth.login.index') }}" class="mb-3 me-2 btn btn-success btn-lg">Absen</a>
                         </div>
                     </div>
                 </div>
@@ -111,7 +111,7 @@
                 <div class="card mt-4 col-md-6 d-flex mx-auto">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col mb-3">
+                            <div class="col-12 col-md-6 mb-3">
                                 <label for="student" class="form-label">Siswa</label>
                                 <select name="student" id="student" class="form-control" required>
                                     <option value="">Pilih Siswa</option>
@@ -120,7 +120,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col col-md-4 mb-3">
+                            <div class="col-12 col-md-6 mb-3">
                                 <label for="date" class="form-label">Tanggal</label>
                                 <input type="text" class="form-control" placeholder="Tanggal Presensi" id="date-presensi"
                                     name="date-presensi" autocomplete="off" required />

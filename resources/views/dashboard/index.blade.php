@@ -16,7 +16,7 @@
         <!-- User Information-->
         <div class="card user-info-card mb-3">
             <div class="card-body d-flex align-items-center">
-                <div class="user-profile me-3">
+                <div class="user-profile me-3 overflow-hidden">
                     @if (!empty(Auth::guard('student')->user()->photo))
                         <a href="{{ url(Storage::url('uploads/students/' . Auth::guard('student')->user()->photo)) }}"
                             data-lightbox="{{ url(Storage::url('uploads/students/' . Auth::guard('student')->user()->photo)) }}">

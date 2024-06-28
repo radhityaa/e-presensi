@@ -74,19 +74,17 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-3 col-sm-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <div class="card-title mb-0">
-                        <h5 class="mb-0 me-2">{{ $students }}</h5>
-                        <small>Jumlah Murid</small>
-                    </div>
-                    <div class="card-icon">
-                        <span class="badge bg-label-primary rounded-pill p-2">
-                            <i class="ti ti-users ti-sm"></i>
-                        </span>
-                    </div>
+    <div class="col-lg-3 col-sm-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div class="card-title mb-0">
+                    <h5 class="mb-0 me-2">{{ $students }}</h5>
+                    <small>Jumlah Murid</small>
+                </div>
+                <div class="card-icon">
+                    <span class="badge bg-label-primary rounded-pill p-2">
+                        <i class="ti ti-users ti-sm"></i>
+                    </span>
                 </div>
             </div>
         </div>
@@ -96,7 +94,7 @@
     <div class="card">
         <div class="card-body">
             <div class="row mb-3">
-                <div class="col-3">
+                <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-text" id="basic-addon11"><i class="fa-regular fa-calendar"></i></span>
                         <input type="text" class="form-control" placeholder="Tanggal Presensi" id="date-presensi"

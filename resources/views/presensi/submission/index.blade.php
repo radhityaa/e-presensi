@@ -3,6 +3,12 @@
 @section('content')
     <div class="container py-3">
 
+        <div class="add-new-contact-wrap">
+            <a class="shadow" href="{{ route('submission.create') }}">
+                <i class="bi bi-plus-lg"></i>
+            </a>
+        </div>
+
         @foreach ($submissions as $item)
             <div
                 class="card timeline-card {{ $item->approve == 0 ? 'bg-warning' : ($item->approve == 1 ? 'bg-success' : 'bg-danger') }}">
@@ -14,7 +20,7 @@
                         </div>
                         <div class="timeline-icon mb-2">
                             <i
-                                class="bi {{ ($item->approve == 0 ? 'bi-clock' : $item->approve == 1) ? 'bi-check2-circle' : 'bi-x-circle' }} h1 mb-0"></i>
+                                class="bi {{ $item->approve == 0 ? 'bi-clock' : ($item->approve == 1 ? 'bi-check2-circle' : 'bi-x-circle') }} h1 mb-0"></i>
                         </div>
                     </div>
                     <p class="mb-2">{{ $item->description }}</p>

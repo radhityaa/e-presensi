@@ -1,40 +1,51 @@
 @extends('layouts.app')
 
 @push('page-css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
-
-    <style>
-        .datepicker-modal {
-            max-height: 465px !important;
-        }
-
-        .datepicker-date-display {
-            background-color: #3B85FA;
-        }
-    </style>
 @endpush
 
-@section('header')
-    <div class="appHeader bg-primary text-light">
-        <div class="left">
-            <a href="javascript:;" class="headerButton goBack">
-                <ion-icon name="chevron-back-outline"></ion-icon>
-            </a>
-        </div>
-        <div class="pageTitle">Form Pengajuan</div>
-        <div class="right"></div>
-    </div>
-@endsection
-
 @section('content')
-    <div class="row" style="margin-top: 70px">
+    <div class="container py-3">
+        <div class="card">
+            <div class="card-body">
+                <form action="{{ route('submission.store') }}" method="POST">
+                    @csrf
+
+                    <div class="form-group">
+                        <label for="date" class="form-label">Tanggal</label>
+                        <input type="date" name="date" id="date" class="form-control" placeholder="Tanggal"
+                            required autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status" class="form-label">Tanggal</label>
+                        <select name="status" id="status" class="form-select" required>
+                            <option value="">Izin / Sakit</option>
+                            <option value="i">Ijin</option>
+                            <option value="s">Sakit</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description" class="form-label">Alasan</label>
+                        <textarea name="description" id="description" class="form-control" placeholder="Alasan" required>{{ old('description') }}</textarea>
+                    </div>
+
+                    <div>
+                        <button class="btn btn-success">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{-- <div class="row" style="margin-top: 70px">
         <div class="col">
             <form action="{{ route('submission.store') }}" method="post" id="form-create">
                 @csrf
 
                 <div class="form-group">
                     <label for="date">Tanggal*</label>
-                    <input type="text" name="date" id="date" class="form-control datepicker"
+                    <input type="date" name="date" id="date" class="form-control datepicker"
                         placeholder="Tanggal" required>
                 </div>
 
@@ -58,12 +69,12 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> --}}
 @endsection
 
 
-@push('page-script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+@push('page-js')
+    {{-- <script src="{{ asset('assets/template/js/materialize.min.js') }}"></script> --}}
 
     <script>
         var currYear = (new Date()).getFullYear();

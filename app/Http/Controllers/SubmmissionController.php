@@ -12,7 +12,7 @@ class SubmmissionController extends Controller
     public function index()
     {
         $title = 'Pengajuan Presensi';
-        $submissions = Submmission::where('student_id', Auth::guard('student')->user()->id)->paginate(5);
+        $submissions = Submmission::where('student_id', Auth::guard('student')->user()->id)->latest()->paginate(5);
 
         return view('presensi.submission.index', compact('submissions', 'title'));
     }
