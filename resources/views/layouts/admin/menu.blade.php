@@ -31,7 +31,7 @@
 
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->is('admin/master/presensi*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.presensi.index') }}" class="menu-link">
+                    <a href="{{ route('admin.presensi.master.index') }}" class="menu-link">
                         <div>Data Absensi</div>
                     </a>
                 </li>

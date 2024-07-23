@@ -104,7 +104,7 @@ Route::middleware(['auth:user'])->group(function () {
             });
 
             // Presensi
-            Route::prefix('presensi')->name('presensi.')->group(function () {
+            Route::prefix('presensi')->name('presensi.master.')->group(function () {
                 Route::get('', [AdminPresensiController::class, 'index'])->name('index');
             });
         });
