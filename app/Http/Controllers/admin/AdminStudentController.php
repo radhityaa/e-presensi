@@ -65,9 +65,16 @@ class AdminStudentController extends Controller
         return view('admin.student.index');
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        $students = Student::with('classroom')->latest()->get();
+        $query = Student::with('classroom')->latest();
+
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('nik', 'like', '%' . $request->search . '%');
+        }
+
+        $students = $query->get();
 
         return response()->json([
             'success'   => true,

@@ -43,7 +43,6 @@ Route::middleware(['auth:student'])->group(function () {
     Route::post('presensi', [PresensiController::class, 'store'])->name('presensi.store');
     Route::get('presensi/{uuid}/detail', [PresensiController::class, 'index'])->name('presensi.index');
     Route::get('presensi/history', [PresensiController::class, 'history'])->name('presensi.history');
-    Route::post('presensi/history', [PresensiController::class, 'getHistory']);
 
     // Student
     Route::prefix('student')->name('student.')->group(function () {

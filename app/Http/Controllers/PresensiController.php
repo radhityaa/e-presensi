@@ -142,26 +142,35 @@ class PresensiController extends Controller
         return compact('meters');
     }
 
-    public function history()
+    public function history(Request $request)
     {
+        if ($request->ajax()) {
+            $studentId = Auth::guard('student')->user()->id;
+            $month = $request->month;
+            $year = $request->year;
+            $formattedTime = MyHelper::getAbsenceTime('in', true);
+            $timeIn = MyHelper::getAbsenceTime('in');
+
+            $histories = Presensi::whereRaw('MONTH(created_at)="' . $month . '"')
+                ->whereRaw('YEAR(created_at)="' . $year . '"')
+                ->where('student_id', $studentId)
+                ->orderBy('created_at')
+                ->paginate(10);
+
+            $histories->getCollection()->transform(function ($item) {
+                $item->picture_in_url = Storage::url('uploads/absensi/' . $item->picture_in);
+                return $item;
+            });
+
+            return response()->json([
+                'data' => $histories->items(),
+                'links' => (string) $histories->links(),
+                'formattedTime' => $formattedTime,
+                'timeIn' => $timeIn
+            ]);
+        }
+
         $month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         return view('presensi.history.index', compact('month'));
-    }
-
-    public function getHistory(Request $request)
-    {
-        $studentId = Auth::guard('student')->user()->id;
-        $month = $request->month;
-        $year = $request->year;
-        $formattedTime = MyHelper::getAbsenceTime('in', true);
-        $timeIn = MyHelper::getAbsenceTime('in');
-
-        $histories = Presensi::whereRaw('MONTH(created_at)="' . $month . '"')
-            ->whereRaw('YEAR(created_at)="' . $year . '"')
-            ->where('student_id', $studentId)
-            ->orderBy('created_at')
-            ->paginate(1);
-
-        return view('presensi.history.get', compact('histories', 'formattedTime', 'timeIn'));
     }
 }

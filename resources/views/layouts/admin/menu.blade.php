@@ -1,21 +1,8 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
         <a href="index.html" class="app-brand-link">
-            <span class="app-brand-logo demo">
-                <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
-                        fill="#7367F0" />
-                    <path opacity="0.06" fill-rule="evenodd" clip-rule="evenodd"
-                        d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z" fill="#161616" />
-                    <path opacity="0.06" fill-rule="evenodd" clip-rule="evenodd"
-                        d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z" fill="#161616" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
-                        fill="#7367F0" />
-                </svg>
-            </span>
-            <span class="app-brand-text demo menu-text fw-bold">{{ env('APP_NAME') }}</span>
+            <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" width="32" height="32">
+            <span class="app-brand-text demo menu-text fw-bold">E-Presensi</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -35,22 +22,6 @@
             </a>
         </li>
 
-        <!-- Schedules -->
-        <li class="menu-item {{ request()->is('admin/schedules*') ? 'active' : '' }}">
-            <a href="{{ route('admin.schedules.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-calendar-event"></i>
-                <div>Jadwal Pelajaran</div>
-            </a>
-        </li>
-
-        <!-- Submissions -->
-        <li class="menu-item {{ request()->is('admin/submission*') ? 'active' : '' }}">
-            <a href="{{ route('admin.submission.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-license"></i>
-                <div>Data Pengajuan</div>
-            </a>
-        </li>
-
         <!-- Data Master -->
         <li class="menu-item {{ request()->is('admin/master/*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -59,6 +30,18 @@
             </a>
 
             <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('admin/master/presensi*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.presensi.index') }}" class="menu-link">
+                        <div>Data Absensi</div>
+                    </a>
+                </li>
+
+                <li class="menu-item {{ request()->is('admin/master/submission*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.submission.index') }}" class="menu-link">
+                        <div>Data Izin Sakit</div>
+                    </a>
+                </li>
+
                 <li class="menu-item {{ request()->is('admin/master/users*') ? 'active' : '' }}">
                     <a href="{{ route('admin.users.index') }}" class="menu-link">
                         <div>Data User</div>
@@ -119,24 +102,18 @@
                 </a>
             </li>
 
-            <li class="menu-item {{ request()->is('admin/settings/*') ? 'active open' : '' }}">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <li class="menu-item {{ request()->is('admin/settings/subjects*') ? 'active' : '' }}">
+                <a href="{{ route('admin.settings.subjects.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-calendar-event"></i>
+                    <div>Mata Pelajaran</div>
+                </a>
+            </li>
+
+            <li class="menu-item {{ request()->is('admin/settings/schedules*') ? 'active' : '' }}">
+                <a href="{{ route('admin.settings.schedules.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-calendar-event"></i>
                     <div>Jadwal Pelajaran</div>
                 </a>
-
-                <ul class="menu-sub">
-                    <li class="menu-item {{ request()->is('admin/settings/subjects*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.settings.subjects.index') }}" class="menu-link">
-                            <div>Mata Pelajaran</div>
-                        </a>
-                    </li>
-                    <li class="menu-item {{ request()->is('admin/settings/schedules*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.settings.schedules.index') }}" class="menu-link">
-                            <div>Ubah Jadwal</div>
-                        </a>
-                    </li>
-                </ul>
             </li>
 
             <!-- Misc -->
@@ -147,13 +124,6 @@
                 <a href="{{ route('admin.qr.qrcode') }}" target="_blank" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-qrcode"></i>
                     <div>Srole QRCode</div>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="https://demos.pixinvent.com/vuexy-html-admin-template/documentation/" target="_blank"
-                    class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-file-description"></i>
-                    <div data-i18n="Documentation">Documentation</div>
                 </a>
             </li>
         @endrole

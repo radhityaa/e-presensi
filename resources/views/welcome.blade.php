@@ -20,7 +20,7 @@
                         <div class="landing-hero-btn d-inline-block position-relative">
                             <a href="#cekAbsensi" class="mb-3 me-2 btn btn-primary btn-lg">Cek Absensi</a>
                             <a href="#jadwalPelajaran" class="mb-3 me-2 btn btn-info btn-lg">Jadwal Pelajaran</a>
-                            <a href="{{ route('auth.login.index') }}" class="mb-3 me-2 btn btn-success btn-lg">Absen</a>
+                            <a href="{{ route('auth.login.index') }}" class="mb-3 me-2 btn btn-success btn-lg">Login</a>
                         </div>
                     </div>
                 </div>

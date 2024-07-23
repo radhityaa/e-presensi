@@ -1,99 +1,32 @@
 @extends('layouts.admin.template')
 
-@section('title')
-    Dashboard
-@endsection
-
 @push('page-css')
+    <link rel="stylesheet" href="{{ asset('assets/template/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
+    <link rel="stylesheet"
+        href="{{ asset('assets/template/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}" />
+    <link rel="stylesheet"
+        href="{{ asset('assets/template/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/template/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}" />
+    <link rel="stylesheet"
+        href="{{ asset('assets/template/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/template/vendor/libs/flatpickr/flatpickr.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/template/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}" />
+    <link rel="stylesheet"
+        href="{{ asset('assets/template/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/template/vendor/libs/flatpickr/flatpickr.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/template/vendor/libs/leaflet/leaflet.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/template/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/template/vendor/libs/select2/select2.css') }}" />
 @endpush
+
+@section('title')
+    Data Absensi
+@endsection
 
 @section('content')
     <div class="col-lg-12 mb-4 col-md-12">
-        <div class="card h-100">
-            <div class="card-header d-flex justify-content-between">
-                <h5 class="card-title mb-0">Statistics</h5>
-                <small class="text-muted">Update Per Hari Ini</small>
-            </div>
-            <div class="card-body pt-2">
-                <div class="row gy-3">
-                    <div class="col-md-3 col-6">
-                        <div class="d-flex align-items-center">
-                            <div class="badge rounded-pill bg-label-success me-3 p-2">
-                                <i class="ti ti-fingerprint ti-sm"></i>
-                            </div>
-                            <div class="card-info">
-                                <h5 class="mb-0">{{ empty($rekapAbsen->total_hadir) ? 0 : $rekapAbsen->total_hadir }}</h5>
-                                <small>Hadir</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="d-flex align-items-center">
-                            <div class="badge rounded-pill bg-label-info me-3 p-2">
-                                <i class="ti ti-file-text ti-sm"></i>
-                            </div>
-                            <div class="card-info">
-                                <h5 class="mb-0">
-                                    {{ empty($recapSubmmission->total_izin) ? 0 : $recapSubmmission->total_izin }}</h5>
-                                <small>Izin</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="d-flex align-items-center">
-                            <div class="badge rounded-pill bg-label-warning me-3 p-2">
-                                <i class="ti ti-mood-sick ti-sm"></i>
-                            </div>
-                            <div class="card-info">
-                                <h5 class="mb-0">
-                                    {{ empty($recapSubmmission->total_sakit) ? 0 : $recapSubmmission->total_sakit }}
-                                </h5>
-                                <small>Sakit</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="d-flex align-items-center">
-                            <div class="badge rounded-pill bg-label-danger me-3 p-2">
-                                <i class="ti ti-clock ti-sm"></i>
-                            </div>
-                            <div class="card-info">
-                                <h5 class="mb-0">
-                                    {{ empty($rekapAbsen->total_terlambat) ? 0 : $rekapAbsen->total_terlambat }}
-                                </h5>
-                                <small>Terlambat</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-sm-6 mb-4">
-        <div class="card h-100">
-            <div class="card-body d-flex justify-content-between align-items-center">
-                <div class="card-title mb-0">
-                    <h5 class="mb-0 me-2">{{ $students }}</h5>
-                    <small>Jumlah Murid</small>
-                </div>
-                <div class="card-icon">
-                    <span class="badge bg-label-primary rounded-pill p-2">
-                        <i class="ti ti-users ti-sm"></i>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <h5 class="p-3">Monitoring Presensi</h5>
-    <div class="card">
-        <div class="card-body">
-            <div class="row mb-3">
+        <!-- DataTable -->
+        <div class="card">
+            <div class="row align-items-center justify-content-between mb-3 p-3">
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-text" id="basic-addon11"><i class="fa-regular fa-calendar"></i></span>
@@ -101,33 +34,31 @@
                             name="date-presensi" value="{{ date('Y-m-d') }}" autocomplete="off" />
                     </div>
                 </div>
-            </div>
-
-            {{-- Table --}}
-            <div class="row">
-                <div class="col-12">
-                    <div class="card-datatable table-responsive">
-                        <table class="table table-hover datatables-monitoring">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th>#</th>
-                                    <th>NIK</th>
-                                    <th>Nama</th>
-                                    <th>Kelas</th>
-                                    <th>Jam Masuk</th>
-                                    <th>Foto</th>
-                                    <th>Jam Pulang</th>
-                                    <th>Foto</th>
-                                    <th>Keterangan</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-border-bottom-0" id="table-body-presensi"></tbody>
-                        </table>
-                    </div>
+                <div class="col-md-3 text-end">
+                    <button class="btn btn-success" id="btn-add-presensi"><i class="fa-regular fa-plus me-2"></i>
+                        Tambah Presensi</button>
                 </div>
+            </div>
+            <div class="card-datatable table-responsive pt-0">
+                <table class="table table-hover datatables-presensi">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>#</th>
+                            <th>NIK</th>
+                            <th>Nama</th>
+                            <th>Kelas</th>
+                            <th>Jam Masuk</th>
+                            <th>Foto</th>
+                            <th>Jam Pulang</th>
+                            <th>Foto</th>
+                            <th>Keterangan</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0" id="table-body-presensi"></tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -146,22 +77,24 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="nik" class="form-label">NIK</label>
-                                <input type="text" class="form-control" id="nik" name="nik" />
+                                <select name="nik" id="nik" class="form-control select2">
+                                    <option value="">Pilih Siswa</option>
+                                </select>
                             </div>
                             <div class="col">
                                 <label for="name" class="form-label">Nama Lengkap</label>
-                                <input type="text" class="form-control" id="name" name="name" />
+                                <input type="text" class="form-control" id="name" name="name" disabled />
                             </div>
                             <div class="col">
                                 <label for="classroom" class="form-label">Kelas</label>
-                                <input type="text" class="form-control" id="classroom" name="classroom" />
+                                <input type="text" class="form-control" id="classroom" name="classroom" disabled />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="jam_in" class="form-label">Jam Absen Masuk</label>
-                                <input type="text" class="form-control" placeholder="Tanggal Absensi" id="jam_in"
-                                    name="jam_in" autocomplete="off" />
+                                <input type="time" class="form-control" placeholder="Tanggal Absensi" id="jam_in"
+                                    name="jam_in" autocomplete="off" required />
                             </div>
                             <div class="col">
                                 <label for="picture_in" class="form-label">Foto Absen Masuk</label>
@@ -177,8 +110,8 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="jam_out" class="form-label">Jam Absen Pulang</label>
-                                <input type="text" class="form-control" placeholder="Tanggal Absensi" id="jam_out"
-                                    name="jam_out" autocomplete="off" />
+                                <input type="time" class="form-control" placeholder="Tanggal Absensi" id="jam_out"
+                                    name="jam_out" autocomplete="off" required />
                             </div>
                             <div class="col">
                                 <label for="picture_in" class="form-label">Foto Absen Pulang</label>
@@ -194,11 +127,8 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="keterangan" class="form-label">Keterangan</label>
-                                <input type="text" class="form-control" id="keterangan" name="keterangan" />
+                                <input type="text" class="form-control" id="keterangan" name="keterangan" disabled />
                             </div>
-                        </div>
-                        <div class="row mb-3 p-2">
-                            <div class="leaflet-map" id="mapPresensi"></div>
                         </div>
 
                         <div class="modal-footer">
@@ -214,8 +144,11 @@
 @endsection
 
 @push('page-js')
+    <script src="{{ asset('assets/template/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
     <script src="{{ asset('assets/template/vendor/libs/flatpickr/flatpickr.js') }}"></script>
     <script src="{{ asset('assets/template/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('assets/template/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/template/vendor/libs/select2/select2.js') }}"></script>
 
     <script>
         let url = '';
@@ -232,19 +165,115 @@
             return url
         }
 
-        function refresh() {
-            daTables.ajax.reload(null, false)
-        }
-
         function getMethod() {
             return method
         }
 
-        var daTables = $('.datatables-monitoring').DataTable({
+        $(document).ready(function() {
+            $('#formModal').on('hidden.bs.modal', function() {
+                $('.modal-body form')[0].reset();
+                $('input[name="_method"]').remove();
+                $('.btn-loading').addClass('d-none')
+                $('.btn-save').removeClass('d-none')
+                $('#nik').val(null).trigger('change'); // Reset select2
+                $('#name').val(''); // Reset input name
+                $('#classroom').val(''); // Reset input classroom
+            })
+
+            $('#nik').select2({
+                dropdownParent: $('#formModal'),
+                ajax: {
+                    url: "{{ route('admin.student.list') }}",
+                    type: "GET",
+                    dataType: "json",
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            search: params.term
+                        };
+                    },
+                    processResults: function(res) {
+                        return {
+                            results: $.map(res.data, function(item) {
+                                return {
+                                    text: item.nik,
+                                    id: item.id,
+                                    name: item.name,
+                                    classroom: item.classroom
+                                }
+                            })
+                        };
+                    }
+                }
+            }).on('select2:select', function(e) {
+                var data = e.params.data;
+                $('#name').val(data.name);
+                $('#classroom').val(data.classroom.name);
+            });
+
+            $('#form-modal').on('submit', function(e) {
+                e.preventDefault()
+                $('.btn-loading').removeClass('d-none')
+                $('.btn-save').addClass('d-none')
+
+                $.ajax({
+                    url: getUrl(),
+                    method: getMethod(),
+                    data: $(this).serialize(),
+                    success: function(res) {
+                        $('#formModal').modal('hide')
+                        refresh()
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: 'Data berhasil disimpan',
+                            timer: 3000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                            customClass: {
+                                popup: 'swal2-popup'
+                            }
+                        })
+
+                        $('.btn-loading').addClass('d-none')
+                        $('.btn-save').removeClass('d-none')
+                    },
+                    error: function(err) {
+                        console.log(err);
+                        $('#formModal').modal('hide')
+                        refresh()
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: 'Internal Server Error',
+                            timer: 3000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                            customClass: {
+                                popup: 'swal2-popup'
+                            }
+                        })
+
+                        $('.btn-loading').addClass('d-none')
+                        $('.btn-save').removeClass('d-none')
+                    }
+                })
+            })
+        })
+
+        $('#btn-add-presensi').on('click', function() {
+            $('#formModal').modal('show')
+            url = "{{ route('admin.presensi.store') }}"
+            method = "POST"
+        })
+
+        var daTables = $('.datatables-presensi').DataTable({
             processing: true,
             serverside: true,
             ajax: {
-                url: "{{ route('admin.dashboard') }}",
+                url: "{{ route('admin.presensi.index') }}",
                 type: "GET",
                 data: function(d) {
                     d.filter = filter
@@ -383,8 +412,16 @@
         }
 
         function show(id) {
-            $('.btn-save').addClass('d-none')
-            $('.modal-body form').find('input').prop('disabled', true);
+            $('.modal-body form #nik').prop('disabled', true);
+            $('.modal-body form #name').prop('disabled', true);
+            $('.modal-body form #classroom').prop('disabled', true);
+            $('.modal-body form #keterangan').prop('disabled', true);
+            $('.modal-body form').append('<input type="hidden" name="_method" value="PUT">')
+
+            url = "{!! route('admin.presensi.update', ':id') !!}"
+            url = url.replace(':id', id)
+            method = 'PUT'
+
             $('#formModalLabel').text('Detail Absensi')
             let time = $('#btn-show').attr('data-time')
             let formattedTime = $('#btn-show').attr('data-formatted-time')
@@ -418,29 +455,11 @@
                     $('#href_picture_out').attr('href', imageUrlOut)
                     $('#href_picture_out').attr('data-lightbox', imageUrlOut)
                 }
-
-                // Maps / Location
-                var currentLocation = res.location_in
-                var location = currentLocation.split(',')
-                var latitude = location[0]
-                var longitude = location[1]
-
-                const mapPresensi = L.map('mapPresensi').setView([latitude, longitude], 18);
-                L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19
-                }).addTo(mapPresensi);
-                var marker = L.marker([latitude, longitude]).addTo(mapPresensi);
-                var circle = L.circle([-6.369089, 107.399181], {
-                    color: 'green',
-                    fillColor: '#4ade80',
-                    fillOpacity: 0.5,
-                    radius: 20
-                }).addTo(mapPresensi);
-                var popup = L.popup()
-                    .setLatLng([latitude, longitude])
-                    .setContent(res.student.name)
-                    .openOn(mapPresensi);
             })
+        }
+
+        function refresh() {
+            daTables.ajax.reload(null, false)
         }
 
         var datePicker = $("#date-presensi").datepicker({

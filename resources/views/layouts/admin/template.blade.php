@@ -15,7 +15,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/template/img/favicon/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/logo.png') }}" />
 
     {{-- CSS --}}
     @include('layouts.admin.css')

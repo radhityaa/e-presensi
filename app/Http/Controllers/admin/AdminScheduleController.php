@@ -73,4 +73,66 @@ class AdminScheduleController extends Controller
         $users = User::orderBy('name')->get();
         return response()->json($users);
     }
+
+    public function destroy($id)
+    {
+        $schedule = Schedule::find($id);
+
+        if (!$schedule) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Jadwal tidak ditemukan'
+            ], 404);
+        }
+
+        $schedule->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Jadwal berhasil dihapus'
+        ]);
+    }
+
+    public function edit($id)
+    {
+        $schedule = Schedule::find($id)->load('subject', 'user', 'classroom');
+
+        if (!$schedule) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Jadwal tidak ditemukan'
+            ], 404);
+        }
+
+        return response()->json($schedule);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'start_time'   => 'required',
+            'end_time'     => 'required',
+            'subject_id'   => 'required|exists:subjects,id',
+            'user_id'      => 'required|exists:users,id'
+        ]);
+
+        $schedule = Schedule::find($id);
+
+        if (!$schedule) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Jadwal tidak ditemukan'
+            ], 404);
+        }
+
+        $schedule->update([
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'subject_id' => $request->subject_id,
+            'user_id' => $request->user_id,
+        ]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Jadwal berhasil diubah'
+        ]);
+    }
 }

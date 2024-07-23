@@ -34,6 +34,22 @@ class AuthController extends Controller
             } else if (Auth::guard('student')->user()->status === 1) {
                 return redirect(route('dashboard'));
             }
+        } else if (Auth::guard('user')->attempt(['nik' => $request->nik, 'password' => $request->password])) {
+            if (Auth::guard('user')->user()->status === 0) {
+                notyf()
+                    ->position('x', 'center')
+                    ->position('y', 'top')
+                    ->addError('Akun Belum Aktif.');
+                return redirect(route('auth.login.index'));
+            } else if (Auth::guard('user')->user()->status === 2) {
+                notyf()
+                    ->position('x', 'center')
+                    ->position('y', 'top')
+                    ->addError('Akun Tidak Aktif.');
+                return redirect(route('auth.login.index'));
+            } else if (Auth::guard('user')->user()->status === 1) {
+                return redirect(route('admin.dashboard'));
+            }
         } else {
             notyf()
                 ->position('x', 'center')

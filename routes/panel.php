@@ -95,6 +95,18 @@ Route::middleware(['auth:user'])->group(function () {
                 Route::put('{classroom}/edit', [AdminClassroomController::class, 'update'])->name('update');
                 Route::delete('{classroom}', [AdminClassroomController::class, 'destroy'])->name('destroy');
             });
+
+            // Submissions
+            Route::prefix('submission')->name('submission.')->group(function () {
+                Route::get('', [AdminSubmissionController::class, 'index'])->name('index');
+                Route::get('{submmission}', [AdminSubmissionController::class, 'edit'])->name('edit');
+                Route::put('{submmission}', [AdminSubmissionController::class, 'update'])->name('update');
+            });
+
+            // Presensi
+            Route::prefix('presensi')->name('presensi.')->group(function () {
+                Route::get('', [AdminPresensiController::class, 'index'])->name('index');
+            });
         });
 
         // Settings
@@ -123,14 +135,10 @@ Route::middleware(['auth:user'])->group(function () {
                 Route::get('get-schedules', [AdminScheduleController::class, 'list'])->name('list');
                 Route::get('get-subjects', [AdminScheduleController::class, 'subjects'])->name('subjects');
                 Route::get('get-users', [AdminScheduleController::class, 'users'])->name('users');
+                Route::get('{id}/edit', [AdminScheduleController::class, 'edit'])->name('edit');
+                Route::put('{id}/edit', [AdminScheduleController::class, 'update'])->name('update');
+                Route::delete('{id}', [AdminScheduleController::class, 'destroy'])->name('destroy');
             });
-        });
-
-        // Submissions
-        Route::prefix('submission')->name('submission.')->group(function () {
-            Route::get('', [AdminSubmissionController::class, 'index'])->name('index');
-            Route::get('{submmission}', [AdminSubmissionController::class, 'edit'])->name('edit');
-            Route::put('{submmission}', [AdminSubmissionController::class, 'update'])->name('update');
         });
 
         Route::get('logout', [AdminAuthController::class, 'logout'])->name('logout');

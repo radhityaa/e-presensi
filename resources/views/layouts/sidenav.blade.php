@@ -11,12 +11,12 @@
                 <div class="sidenav-style1"></div>
 
                 <!-- User Thumbnail -->
-                <div class="user-profile">
+                <div class="user-profile overflow-hidden">
                     @if (!empty(Auth::guard('student')->user()->photo))
                         <a href="{{ url(Storage::url('uploads/students/' . Auth::guard('student')->user()->photo)) }}"
                             data-lightbox="{{ url(Storage::url('uploads/students/' . Auth::guard('student')->user()->photo)) }}">
-                            <img
-                                src="{{ url(Storage::url('uploads/students/' . Auth::guard('student')->user()->photo)) }}">
+                            <img src="{{ url(Storage::url('uploads/students/' . Auth::guard('student')->user()->photo)) }}"
+                                class="imaged w64 rounded">
                         </a>
                     @else
                         <a href="{{ asset('assets/img/sample/avatar/avatar1.jpg') }}"

@@ -271,6 +271,117 @@
             wrapper.append(opt)
         });
 
+        $(document).on('click', '.btn-delete', function() {
+            var id = $(this).data('id')
+
+            url = "{{ route('admin.settings.schedules.destroy', ':id') }}"
+            url = url.replace(':id', id)
+            method = 'DELETE'
+
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: 'Jadwal Pelajaran akan dihapus.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yakin, Hapus',
+                showLoaderOnConfirm: true,
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                    cancelButton: 'btn btn-label-danger waves-effect waves-light'
+                },
+            }).then((willDelete) => {
+                if (willDelete.isConfirmed) {
+                    $.ajax({
+                        url: getUrl(),
+                        method: getMethod(),
+                        success: function(res) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: res.message,
+                                customClass: {
+                                    confirmButton: 'btn btn-success waves-effect waves-light'
+                                }
+                            }).then((result) => {
+                                if (result.isConfirmed || result.isDismissed) {
+                                    reload()
+                                }
+                            });
+                        },
+                        error: function(xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: 'Gagal menghapus mata pelajaran.',
+                                customClass: {
+                                    confirmButton: 'btn btn-success waves-effect waves-light'
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        })
+
+        $(document).on('click', '.btn-edit', function() {
+            var id = $(this).data('id')
+
+            let Editurl = "{{ route('admin.settings.schedules.edit', ':id') }}"
+            Editurl = Editurl.replace(':id', id)
+
+            url = "{{ route('admin.settings.schedules.update', ':id') }}"
+            url = url.replace(':id', id)
+            method = "PUT"
+
+            $.ajax({
+                url: getUrl(),
+                method: "GET",
+                success: function(res) {
+                    console.log(res);
+                    var schedule = res
+                    $('#modalSchedule').modal('show')
+                    $('#modalScheduleTitle').html('Ubah Jadwal Pelajaran')
+
+                    var classroom = $('#classroom_id').find('option:selected').text()
+                    var day = $('#day').val()
+                    $('#classroom_add').val(classroom)
+                    $('#day_add').val(day)
+
+                    $('#subject').empty()
+                    $('#user').empty()
+
+                    $.get('{{ route('admin.settings.schedules.subjects') }}', function(res) {
+                        let opt
+                        $.each(res, function(index, subject) {
+                            let selected = schedule.subject_id === subject.id ?
+                                'selected' : ''
+                            opt += '<option value="' + subject.id + '" ' + selected +
+                                '>' + subject
+                                .name + '</option>'
+                        })
+                        $('#subject').append(opt)
+                    })
+
+                    $.get('{{ route('admin.settings.schedules.users') }}', function(res) {
+                        let opt
+                        $.each(res, function(index, user) {
+                            let selected = schedule.user_id === user.id ? 'selected' :
+                                ''
+                            opt += '<option value="' + user.id + '" ' + selected +
+                                '>' + user.name + '</option>'
+                        })
+                        $('#user').append(opt)
+                    })
+
+                    $('#start_time').val(schedule.start_time)
+                    $('#end_time').val(schedule.end_time)
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            })
+        })
+
         $('#day').on('change', function() {
             var classroom_id = $('#classroom_id').val()
             var day = $('#day').val()
