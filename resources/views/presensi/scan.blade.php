@@ -27,6 +27,7 @@
                 cache: false,
                 success: function(res) {
                     if (res.success) {
+                        html5QrcodeScanner.clear(); // Tutup kamera
                         window.location.href = res.redirect
                     } else {
                         Swal.fire({
