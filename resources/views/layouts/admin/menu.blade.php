@@ -123,7 +123,7 @@
             <li class="menu-item">
                 <a href="{{ route('admin.qr.qrcode') }}" target="_blank" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-qrcode"></i>
-                    <div>Srole QRCode</div>
+                    <div>QRCode</div>
                 </a>
             </li>
         @endrole
