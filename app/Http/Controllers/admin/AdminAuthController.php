@@ -39,7 +39,7 @@ class AdminAuthController extends Controller
     {
         if (Auth::guard('user')->check()) {
             Auth::guard('user')->logout();
-            return redirect(route('admin.login.index'));
+            return redirect(route('welcome.index'));
         }
     }
 }

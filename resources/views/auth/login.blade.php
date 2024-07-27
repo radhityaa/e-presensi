@@ -16,7 +16,7 @@
 
                     <div class="form-group">
                         <input class="form-control @error('nik') is-invalid @enderror" type="text" id="nik"
-                            name="nik" placeholder="NIK" value="{{ old('nik') }}" required>
+                            name="nik" placeholder="NIK/NIP" value="{{ old('nik') }}" required>
                         @error('nik')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
