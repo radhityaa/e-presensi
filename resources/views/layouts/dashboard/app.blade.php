@@ -133,11 +133,9 @@
                             <img src="{{ asset('assets/img/logo.png') }}" class="img-fluid" width="100"
                                 height="100">
                         </a>
-                        <span class="app-brand-text demo footer-link fw-bold">SMAN 2 Purwakarta</span>
+                        <span class="app-brand-text demo footer-link fw-bold">SMAN 3 Purwakarta</span>
                         <p class="footer-text footer-logo-description mb-4">
-                            Berdiri pada tanggal 3 September 1979 berdasarkan SK pendirian Menteri Pendidikan dan
-                            Kebudayaan RI dengan No Statistik Sekolah (NISS) :3010220001002, dalam kurun waktu 29 tahun
-                            SMAN 2 Purwakarta telah dipimin oleh 11 orang Kepala Sekolah
+                        SMA negeri ini pertama kali berdiri pada tahun 1992. Saat ini SMA Negeri 3 Purwakarta menggunakan kurikulum belajar SMA 2013 IPS. SMAN 3 Purwakarta berada di bawah naungan kepala sekolah dengan nama Asep Mulyana ditangani oleh seorang operator yang bernama Cecep Sopian Akbar.
                         </p>
                     </div>
                     <div class="col-lg-2 col-md-4 col-sm-6">
