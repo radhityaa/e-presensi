@@ -164,7 +164,7 @@
                             document.write(new Date().getFullYear());
                         </script>
                     </span>
-                    <a href="/" target="_blank" class="fw-medium text-white footer-link">SMAN 2 Purwakarta,</a>
+                    <a href="/" target="_blank" class="fw-medium text-white footer-link">SMAN 3 Purwakarta,</a>
                     <span class="footer-text"> Made with ❤️ for a better web.</span>
                 </div>
             </div>

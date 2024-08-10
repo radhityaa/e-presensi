@@ -36,7 +36,7 @@
                 </div>
                 <h3 class="text-center mb-1">
                     Daftar Jadwal Pelajaran
-                    <span class="position-relative fw-bold z-1">SMAN 2 Purwakarta
+                    <span class="position-relative fw-bold z-1">SMAN 3 Purwakarta
                         <img src="{{ asset('assets/template/img/front-pages/icons/section-title-icon.png') }}"
                             alt="laptop charging"
                             class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
