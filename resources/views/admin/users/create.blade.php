@@ -26,10 +26,10 @@
                             @enderror
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label class="form-label" for="nik">NIP</label>
-                            <input type="text" name="nik" id="nik"
-                                class="form-control @error('nik') is-invalid @enderror" placeholder="NIK"
-                                value="{{ old('nik') }}" required />
+                            <label class="form-label" for="nip">NIP</label>
+                            <input type="text" name="nip" id="nip"
+                                class="form-control @error('nip') is-invalid @enderror" placeholder="NIP"
+                                value="{{ old('nip') }}" required />
                             @error('nip')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
